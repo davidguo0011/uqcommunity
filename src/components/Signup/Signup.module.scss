@@ -1,0 +1,91 @@
+$primaryColor: rgb(90, 101, 234);
+$darkPrimaryColor: rgb(68, 77, 176);
+$formContainerColor: rgb(55, 57, 62);
+$lightGray: rgb(209, 209, 209);
+$darkGray: rgb(32, 34, 37);
+$blue: rgb(78, 166, 228);
+$font-size: 12px;
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.formContainer {
+  animation: pulse 0.3s;
+  width: 450px;
+  height: 350px;
+  background-color: $formContainerColor;
+  border-radius: 10px;
+  padding: 50px;
+  .signupHeader {
+    color: white;
+    text-align: center;
+    p {
+      color: $lightGray;
+    }
+  }
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    width: 100%;
+    font-size: $font-size;
+
+    label {
+      color: $lightGray;
+      font-weight: bold;
+      margin-bottom: 8px;
+      span {
+        color: rgb(217, 80, 76);
+      }
+    }
+    input {
+      background-color: $darkGray;
+      border: none;
+      border-radius: 3px;
+      height: 35px;
+      padding: 2px 10px;
+      color: white;
+      margin-bottom: 15px;
+    }
+    input:focus {
+      outline: none;
+    }
+  }
+
+  .registerContainer {
+    font-size: $font-size;
+    a {
+      color: $blue;
+      text-decoration: none;
+      margin-left: 5px;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+  .signupBtn {
+    width: 100%;
+    border: none;
+    height: 40px;
+    border-radius: 3px;
+    background-color: $primaryColor;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .signupBtn:hover {
+    background-color: $darkPrimaryColor;
+  }
+}

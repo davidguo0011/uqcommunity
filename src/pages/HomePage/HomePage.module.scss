@@ -1,3 +1,23 @@
-.header {
-  color: red;
+.homepageContainer {
+  .homepageLanding {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+  }
+  .homepageTextContent {
+    width: 50%;
+    height: 400px;
+    border: 1px solid black;
+    text-align: center;
+    h2 {
+      font-size: 40px;
+    }
+    p {
+      font-size: 20px;
+    }
+  }
 }

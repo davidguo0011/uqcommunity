@@ -1,0 +1,27 @@
+.navContainer {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+  ul {
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    li {
+      list-style: none;
+    }
+  }
+  .buttonContainer {
+    button {
+      width: 80px;
+      background-color: white;
+      border-radius: 20px;
+      height: 40px;
+      margin-left: 10px;
+      border: 1px solid black;
+      cursor: pointer;
+    }
+  }
+}
