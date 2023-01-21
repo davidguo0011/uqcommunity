@@ -1,0 +1,39 @@
+$gray: rgb(47, 49, 54);
+$dark: rgb(32, 34, 37);
+$lightGray: rgb(55, 57, 62);
+$darkGray: rgb(41, 43, 47);
+
+$textgray: rgb(188, 188, 189);
+$textwhite: rgb(255, 255, 255);
+$extralightgray: rgb(67, 70, 77);
+.container {
+  display: flex;
+  color: $textwhite;
+  background-color: $darkGray;
+  width: 100%;
+  font-size: 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  button {
+    color: $textgray;
+    background-color: $darkGray;
+    border: none;
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+  }
+  button:hover {
+    color: $textwhite;
+  }
+}

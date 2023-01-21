@@ -11,8 +11,7 @@ export default function Login() {
       password,
     };
     login(data).then((res) => {
-      console.log(res);
-      if (res.data) {
+      if (res.respCode === '51') {
         localStorage.setItem('access_token', res.data.token);
       }
     });

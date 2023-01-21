@@ -1,0 +1,30 @@
+$gray: rgb(47, 49, 54);
+$dark: rgb(32, 34, 37);
+$lightGray: rgb(55, 57, 62);
+$textgray: rgb(188, 188, 189);
+$textwhite: rgb(255, 255, 255);
+
+.chatInput {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  margin-top: 10px;
+  bottom: 0;
+  background-color: $lightGray;
+  input {
+    width: 90%;
+    height: 40px;
+    border-radius: 10px;
+    padding: 0px 20px;
+    background-color: rgb(65, 68, 74);
+    font-size: 16px;
+    border: none;
+    color: $textwhite;
+  }
+  input:focus {
+    outline: none;
+  }
+}

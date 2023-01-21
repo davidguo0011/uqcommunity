@@ -1,0 +1,37 @@
+$gray: rgb(47, 49, 54);
+$dark: rgb(32, 34, 37);
+$lightGray: rgb(55, 57, 62);
+$textgray: rgb(188, 188, 189);
+$textwhite: rgb(255, 255, 255);
+
+.alignRight {
+  align-self: flex-end;
+}
+.chatContainer {
+  display: flex;
+  color: $textwhite;
+  margin-bottom: 20px;
+
+  img {
+    width: 50px;
+    height: 50px;
+    margin: 20px 10px 0 10px;
+  }
+  .messageContainer {
+    h4 {
+      margin-bottom: 5px;
+    }
+    .reverse {
+      text-align: right;
+    }
+    span {
+      color: $textgray;
+      font-size: 10px;
+    }
+    p {
+      margin: 0;
+      max-width: 600px;
+      font-size: 14px;
+    }
+  }
+}
