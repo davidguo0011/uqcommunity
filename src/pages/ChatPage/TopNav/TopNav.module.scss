@@ -55,4 +55,11 @@ $green: rgb(68, 123, 75);
       color: $textwhite;
     }
   }
+  .chatHeader {
+    color: $textwhite;
+    display: flex;
+    .chatName {
+      margin-left: 10px;
+    }
+  }
 }

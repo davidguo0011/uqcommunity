@@ -5,39 +5,43 @@ $lightGray: rgb(55, 57, 62);
 $textgray: rgb(188, 188, 189);
 $textwhite: rgb(255, 255, 255);
 
-.chatRoomContainer {
-  width: 70%;
-  height: calc(100vh - 50px);
-  overflow: scroll;
-  background-color: $backgroundColor;
-  position: relative;
-  box-sizing: border-box;
-  justify-self: flex-end;
-  .chatHeader {
-    padding: 20px;
-    img {
-      border-radius: 50%;
-    }
-    h2 {
-      margin: 0;
-      color: $textwhite;
-    }
-    .buttonContainer {
-      margin-top: 10px;
-      button {
-        background-color: rgb(85, 85, 85);
+.sideContainer {
+  display: flex;
+  .chatRoomContainer {
+    width: 70%;
+    height: calc(100vh - 50px);
+    overflow: scroll;
+    background-color: $backgroundColor;
+    position: relative;
+    box-sizing: border-box;
+    justify-self: flex-end;
+
+    .chatHeader {
+      padding: 20px;
+      img {
+        border-radius: 50%;
+      }
+      h2 {
+        margin: 0;
         color: $textwhite;
-        border: 0;
-        border-radius: 5px;
-        margin-right: 10px;
-        cursor: pointer;
+      }
+      .buttonContainer {
+        margin-top: 10px;
+        button {
+          background-color: rgb(85, 85, 85);
+          color: $textwhite;
+          border: 0;
+          border-radius: 5px;
+          margin-right: 10px;
+          cursor: pointer;
+        }
       }
     }
-  }
-  .chatArea {
-    min-height: 64vh;
-    padding: 0px 20px;
-    display: flex;
-    flex-direction: column;
+    .chatArea {
+      min-height: 64vh;
+      padding: 0px 20px;
+      display: flex;
+      flex-direction: column;
+    }
   }
 }

@@ -6,73 +6,76 @@ $textgray: rgb(188, 188, 189);
 $textwhite: rgb(255, 255, 255);
 $purple: rgb(90, 101, 234);
 
-.friendContainer {
-  width: 70%;
-  height: calc(100vh - 50px);
-  overflow: scroll;
-  background-color: $backgroundColor;
-  padding: 10px 30px;
-  box-sizing: border-box;
-  .searchContainer {
-    position: relative;
-    margin-bottom: 20px;
-    input {
-      width: 100%;
-      height: 35px;
-      border-radius: 5px;
-      font-size: 15px;
-      color: $textwhite;
-      background-color: $dark;
-      border: none;
-      padding: 0px 10px;
-      box-sizing: border-box;
-    }
-    input:focus {
-      outline: none;
-    }
-    .searchIcon {
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      font-size: 25px;
-      color: $textgray;
-    }
-  }
-  .friendList {
-    color: $textwhite;
-    height: 40px;
-    border-bottom: 1px solid rgb(142, 142, 142);
-  }
-  .addFriendContainer {
-    color: $textgray;
-    .addFriend {
+.sideContainer {
+  display: flex;
+  .friendContainer {
+    width: 70%;
+    height: calc(100vh - 50px);
+    overflow: scroll;
+    background-color: $backgroundColor;
+    padding: 10px 30px;
+    box-sizing: border-box;
+    .searchContainer {
       position: relative;
+      margin-bottom: 20px;
       input {
         width: 100%;
-        height: 50px;
-        background-color: $dark;
-        padding: 0px 10px;
-        font-size: 17px;
-        box-sizing: border-box;
-        border: none;
+        height: 35px;
         border-radius: 5px;
+        font-size: 15px;
         color: $textwhite;
+        background-color: $dark;
+        border: none;
+        padding: 0px 10px;
+        box-sizing: border-box;
       }
       input:focus {
-        outline: 2px solid $purple;
+        outline: none;
       }
-      .addFriendBtn {
+      .searchIcon {
         position: absolute;
-        right: 10px;
-        top: 8px;
-        background-color: $purple;
-        color: $textwhite;
-        border-radius: 5px;
-        height: 35px;
-        border: none;
-        width: 100px;
-        font-weight: bold;
-        cursor: pointer;
+        right: 5px;
+        top: 5px;
+        font-size: 25px;
+        color: $textgray;
+      }
+    }
+    .friendList {
+      color: $textwhite;
+      height: 40px;
+      border-bottom: 1px solid rgb(142, 142, 142);
+    }
+    .addFriendContainer {
+      color: $textgray;
+      .addFriend {
+        position: relative;
+        input {
+          width: 100%;
+          height: 50px;
+          background-color: $dark;
+          padding: 0px 10px;
+          font-size: 17px;
+          box-sizing: border-box;
+          border: none;
+          border-radius: 5px;
+          color: $textwhite;
+        }
+        input:focus {
+          outline: 2px solid $purple;
+        }
+        .addFriendBtn {
+          position: absolute;
+          right: 10px;
+          top: 8px;
+          background-color: $purple;
+          color: $textwhite;
+          border-radius: 5px;
+          height: 35px;
+          border: none;
+          width: 100px;
+          font-weight: bold;
+          cursor: pointer;
+        }
       }
     }
   }
