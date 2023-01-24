@@ -17,21 +17,30 @@ $textwhite: rgb(255, 255, 255);
     height: 50px;
     margin: 20px 10px 0 10px;
   }
+  .reverse {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
   .messageContainer {
     h4 {
       margin-bottom: 5px;
-    }
-    .reverse {
-      text-align: right;
     }
     span {
       color: $textgray;
       font-size: 10px;
     }
-    p {
-      margin: 0;
+
+    .messageBox {
+      display: inline-block;
       max-width: 600px;
-      font-size: 14px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: $dark;
+      p {
+        margin: 0;
+        font-size: 14px;
+      }
     }
   }
 }

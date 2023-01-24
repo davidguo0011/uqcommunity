@@ -1,21 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Friend.module.scss';
 import avatar from '../../../assets/discord.png';
 import useClickOutside from '../../../hooks/clickOutside';
-export default function Friend({ name, setStatus, setChatName }) {
+import { MdClose } from 'react-icons/md';
+import OnlineStatusIcon from '../../OnlineStatusIcon/OnlineStatusIcon';
+import { toast } from 'react-toastify';
+export default function Friend({ name, onlineStatus }) {
   const { visible, setVisible, myref } = useClickOutside(false);
+  const [showDeleteBtn, setShowDeleteBtn] = useState(false);
+
   return (
-    <div className={styles.friendContainer} ref={myref}>
+    <div
+      className={[styles.friendContainer, visible && styles.active].join(' ')}
+      ref={myref}
+      onMouseOver={() => {
+        setShowDeleteBtn(true);
+      }}
+      onMouseOut={() => {
+        setShowDeleteBtn(false);
+      }}
+    >
       <button
-        className={[styles.friendBtn, visible && styles.active].join(' ')}
+        className={styles.friendBtn}
         onClick={() => {
           setVisible(true);
-          setStatus('chat');
-          setChatName(name);
         }}
       >
-        <img src={avatar} alt='avatar' className={styles.avatar} />
+        <div className={styles.imgContainer}>
+          <img src={avatar} alt='avatar' className={styles.avatar} />
+          <OnlineStatusIcon onlineStatus={onlineStatus} />
+        </div>
         <p>{name}</p>
+      </button>
+      <button
+        className={[
+          styles.deleteFriendBtn,
+          showDeleteBtn && styles.showDeleteBtn,
+        ].join(' ')}
+        onClick={() => {
+          toast.error('deleteFriend', { theme: 'colored' });
+        }}
+      >
+        <MdClose />
       </button>
     </div>
   );

@@ -8,7 +8,11 @@ $textwhite: rgb(255, 255, 255);
   width: 250px;
   height: 100vh;
   background-color: $gray;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  a {
+    text-decoration: none;
+  }
   .searchBar {
     height: 28px;
     padding: 10px;
@@ -29,22 +33,21 @@ $textwhite: rgb(255, 255, 255);
   }
   .buttonContainer {
     padding: 10px;
-    button {
-      width: 100%;
+    a {
       height: 45px;
-      border: none;
-      background-color: $gray;
       color: $textgray;
+      font-weight: bold;
       cursor: pointer;
       font-size: 20px;
       display: flex;
       align-items: center;
       border-radius: 5px;
+      padding: 5px 10px;
       .friendIcon {
-        margin: 0px 15px 0px 10px;
+        margin-right: 15px;
       }
     }
-    button:hover {
+    a:hover {
       background-color: rgb(67, 70, 77);
       color: $textwhite;
     }
@@ -55,8 +58,8 @@ $textwhite: rgb(255, 255, 255);
   }
   .friendList {
     padding: 0px 10px;
-    height: 82%;
     overflow: scroll;
+    flex: 1;
 
     .header {
       width: 100%;

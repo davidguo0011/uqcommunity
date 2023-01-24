@@ -5,11 +5,14 @@ $textgray: rgb(188, 188, 189);
 $textwhite: rgb(255, 255, 255);
 $extralightgray: rgb(67, 70, 77);
 .friendContainer {
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 4px;
+
   .friendBtn {
     display: flex;
     color: $textgray;
-    border-radius: 5px;
-    background-color: $gray;
+    background-color: transparent;
     width: 100%;
     font-size: 15px;
     font-weight: bold;
@@ -17,20 +20,47 @@ $extralightgray: rgb(67, 70, 77);
     align-items: center;
     cursor: pointer;
     border: none;
-    margin-bottom: 4px;
-    .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+    .imgContainer {
+      position: relative;
       margin: 0px 15px 0px 5px;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
     }
   }
-  .friendBtn:hover {
-    background-color: $extralightgray;
+
+  .deleteFriendBtn {
+    margin-left: auto;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    font-size: 15px;
+    font-weight: bold;
+    right: 10px;
+    top: 17px;
+    color: $textgray;
+    display: none;
+  }
+  .deleteFriendBtn:hover {
     color: $textwhite;
   }
-  .active {
-    background-color: $extralightgray;
+  .showDeleteBtn {
+    display: block;
+  }
+}
+.friendContainer:hover {
+  background-color: $extralightgray;
+  .friendBtn {
+    color: $textwhite;
+  }
+}
+.active {
+  background-color: $extralightgray;
+  .friendBtn {
     color: $textwhite;
   }
 }

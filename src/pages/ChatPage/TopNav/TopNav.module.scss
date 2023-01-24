@@ -14,47 +14,6 @@ $green: rgb(68, 123, 75);
   align-items: center;
   box-sizing: border-box;
   font-weight: bold;
-  .category {
-    width: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: $textgray;
-    font-size: 17px;
-    border-right: 1px solid rgb(142, 142, 142);
-    padding-right: 20px;
-  }
-  .status {
-    display: flex;
-    list-style: none;
-    padding-left: 20px;
-    button {
-      font-weight: bold;
-      background-color: $lightGray;
-      border: none;
-      margin-right: 10px;
-      font-size: 17px;
-      color: $textgray;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button:hover {
-      background-color: rgb(67, 70, 77);
-      color: $textwhite;
-    }
-    .active {
-      background-color: rgb(67, 70, 77);
-      color: $textwhite;
-    }
-    .addFriend {
-      background-color: $green;
-      color: $textwhite;
-    }
-    .addFriend:hover {
-      background-color: $green;
-      color: $textwhite;
-    }
-  }
   .chatHeader {
     color: $textwhite;
     display: flex;

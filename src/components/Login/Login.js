@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import styles from './Login.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../api/login';
 export default function Login() {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const onLogin = () => {
     const data = {
       account: emailOrPhone,
       password,
     };
     login(data).then((res) => {
-      if (res.respCode === '51') {
+      if (res.respCode === '051') {
+        localStorage.setItem('userName', res.data.name);
         localStorage.setItem('access_token', res.data.token);
+        localStorage.setItem('userId', res.data.id);
+        navigate('/chat');
       }
     });
   };
@@ -37,7 +41,7 @@ export default function Login() {
           PASSWORD <span>*</span>
         </label>
         <input
-          type='text'
+          type='password'
           onChange={(e) => {
             setPassword(e.target.value);
           }}
