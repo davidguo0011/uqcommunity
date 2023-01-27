@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './ChatLayout.module.scss';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ChatList from '../../components/ChatList/ChatList';
