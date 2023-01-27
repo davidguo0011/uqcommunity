@@ -29,7 +29,8 @@ $red: rgb(204, 90, 82);
   .btnContainer {
     margin-left: auto;
     display: flex;
-    button {
+    button,
+    a {
       border-radius: 50%;
       background-color: $gray;
       border: none;

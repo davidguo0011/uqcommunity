@@ -2,12 +2,13 @@ import React from 'react';
 import styles from './FriendStatus.module.scss';
 import OnlineStatusIcon from '../OnlineStatusIcon/OnlineStatusIcon';
 import avatar from '../../assets/discord.png';
+import { Link } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineClose } from 'react-icons/md';
 import { BsChatSquareFill } from 'react-icons/bs';
 import { acceptFriendRequest } from '../../api/friends';
 
-export default function FriendStatus({ setStatus, setChatName, friend }) {
+export default function FriendStatus({ dispatch, friend }) {
   const acceptFriendAction = (action) => {
     const data = {
       sendId: localStorage.getItem('userId'),
@@ -16,9 +17,10 @@ export default function FriendStatus({ setStatus, setChatName, friend }) {
       receiverName: friend.name,
       action,
     };
-    acceptFriendRequest(data).then((res) => {
-      console.log(res);
-    });
+    acceptFriendRequest(data);
+    if (action === 1) {
+      dispatch({ type: 'acceptFriend', id: friend.id });
+    }
   };
   return (
     <div className={styles.friendContainer}>
@@ -28,7 +30,7 @@ export default function FriendStatus({ setStatus, setChatName, friend }) {
       </div>
       <p>{friend.name}</p>
       <div className={styles.btnContainer}>
-        {friend.friendShip === 'wait' && (
+        {friend.friendship === 'wait' && (
           <>
             <button
               className={styles.yes}
@@ -48,16 +50,10 @@ export default function FriendStatus({ setStatus, setChatName, friend }) {
             </button>
           </>
         )}
-        {friend.friendShip === 'friend' && (
-          <button
-            className={styles.chat}
-            onClick={() => {
-              setStatus('chat');
-              setChatName(friend.name);
-            }}
-          >
+        {friend.friendship === 'friend' && (
+          <Link to={`/chat/${friend.id}`} className={styles.chat}>
             <BsChatSquareFill />
-          </button>
+          </Link>
         )}
       </div>
     </div>

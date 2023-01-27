@@ -1,9 +1,3 @@
-.friendPageContainer {
+.friendContainer {
   display: flex;
-  .rightSection {
-    width: calc(100% - 350px);
-    .friendContainer {
-      display: flex;
-    }
-  }
 }

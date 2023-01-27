@@ -1,0 +1,114 @@
+$dark: rgb(32, 34, 37);
+$primaryColor: rgb(90, 101, 234);
+
+.pageContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: $primaryColor;
+  .bearLoader {
+    width: 160px;
+    height: 185px;
+    position: relative;
+    background: #fff;
+    border-radius: 100px 100px 0 0;
+  }
+  .bearLoader:after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 125px;
+    left: 50%;
+    top: 25px;
+    transform: translateX(-50%);
+    background-image: radial-gradient(circle, #000 48%, transparent 55%),
+      radial-gradient(circle, #000 48%, transparent 55%),
+      radial-gradient(circle, #fff 30%, transparent 45%),
+      radial-gradient(circle, #000 48%, transparent 51%),
+      linear-gradient(#000 20px, transparent 0),
+      linear-gradient(#cfecf9 60px, transparent 0),
+      radial-gradient(circle, #cfecf9 50%, transparent 51%),
+      radial-gradient(circle, #cfecf9 50%, transparent 51%);
+    background-repeat: no-repeat;
+    background-size: 16px 16px, 16px 16px, 10px 10px, 42px 42px, 12px 3px,
+      50px 25px, 70px 70px, 70px 70px;
+    background-position: 25px 10px, 55px 10px, 36px 44px, 50% 30px, 50% 85px,
+      50% 50px, 50% 22px, 50% 45px;
+    animation: faceLift 1s linear infinite alternate;
+  }
+  .bearLoader:before {
+    content: '';
+    position: absolute;
+    width: 140%;
+    height: 125px;
+    left: -20%;
+    top: 0;
+    background-image: radial-gradient(circle, #fff 48%, transparent 50%),
+      radial-gradient(circle, #fff 48%, transparent 50%);
+    background-repeat: no-repeat;
+    background-size: 65px 65px;
+    background-position: 0px 12px, 145px 12px;
+    animation: earLift 1s linear infinite alternate;
+  }
+
+  @keyframes faceLift {
+    0% {
+      transform: translateX(-60%);
+    }
+    100% {
+      transform: translateX(-30%);
+    }
+  }
+  @keyframes earLift {
+    0% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0px);
+    }
+  }
+  .barLoader {
+    width: 200px;
+    height: 40px;
+    background-color: #0004;
+    position: relative;
+    border-radius: 50px;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05);
+  }
+  .barLoader:after {
+    border-radius: 50px;
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    left: 2px;
+    top: 2px;
+    bottom: 2px;
+    right: 360px;
+    animation: slide 2s linear infinite;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  @keyframes slide {
+    0% {
+      right: 150px;
+      left: 2px;
+    }
+    5% {
+      left: 2px;
+    }
+    50% {
+      right: 2px;
+      left: 150px;
+    }
+    55% {
+      right: 2px;
+    }
+    100% {
+      right: 150px;
+      left: 2px;
+    }
+  }
+}

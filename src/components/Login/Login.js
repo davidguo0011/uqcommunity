@@ -2,23 +2,28 @@ import React, { useState } from 'react';
 import styles from './Login.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../api/login';
+import LoginSpinner from '../Spinner/LoginSpinner/LoginSpinner';
 export default function Login() {
   const [emailOrPhone, setEmailOrPhone] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const onLogin = () => {
-    const data = {
-      account: emailOrPhone,
-      password,
-    };
-    login(data).then((res) => {
-      if (res.respCode === '051') {
-        localStorage.setItem('userName', res.data.name);
-        localStorage.setItem('access_token', res.data.token);
-        localStorage.setItem('userId', res.data.id);
-        navigate('/chat');
-      }
-    });
+    if (password && emailOrPhone) {
+      const data = {
+        account: emailOrPhone,
+        password,
+      };
+      setShowSpinner(true);
+      login(data).then((res) => {
+        if (res.respCode === '051') {
+          localStorage.setItem('userName', res.data.name);
+          localStorage.setItem('access_token', res.data.token);
+          localStorage.setItem('userId', res.data.id);
+          navigate('/friends');
+        }
+      });
+    }
   };
 
   return (
@@ -48,8 +53,12 @@ export default function Login() {
         />
       </div>
       <Link className={styles.forgotPassword}>Forgot your password?</Link>
-      <button className={styles.loginBtn} onClick={onLogin}>
-        Log In
+      <button
+        className={styles.loginBtn}
+        onClick={onLogin}
+        disabled={showSpinner}
+      >
+        {showSpinner ? <LoginSpinner /> : 'Log In'}
       </button>
       <div className={styles.registerContainer}>
         <span>Need an account?</span>

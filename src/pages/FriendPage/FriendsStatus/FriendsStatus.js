@@ -4,10 +4,9 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import FriendStatus from '../../../components/FriendStatus/FriendStatus';
 
 export default function FriendsStatus({
+  dispatch,
   socket,
-  setStatus,
-  setChatName,
-  friends,
+  state,
   currentType,
 }) {
   const [userIdInput, setUserIdInput] = useState('');
@@ -15,20 +14,20 @@ export default function FriendsStatus({
 
   let friendList = [];
   if (currentType === '在线') {
-    friendList = friends.filter((friend) => {
-      return friend.onlineStatus === 'online' && friend.friendShip === 'friend';
+    friendList = state.friends.filter((friend) => {
+      return friend.onlineStatus === 'online' && friend.friendship === 'friend';
     });
   } else if (currentType === '全部') {
-    friendList = friends.filter((friend) => {
-      return friend.friendShip === 'friend';
+    friendList = state.friends.filter((friend) => {
+      return friend.friendship === 'friend';
     });
   } else if (currentType === '待定') {
-    friendList = friends.filter((friend) => {
-      return friend.friendShip === 'wait';
+    friendList = state.friends.filter((friend) => {
+      return friend.friendship === 'wait';
     });
   } else if (currentType === '已屏蔽') {
-    friendList = friends.filter((friend) => {
-      return friend.friendShip === 'block';
+    friendList = state.friends.filter((friend) => {
+      return friend.friendship === 'block';
     });
   }
 
@@ -49,7 +48,7 @@ export default function FriendsStatus({
         message: 'addFriend',
         messageId: `${Date.now()}:${sendId}:${receiverId}:${randomSixDigits}`,
       };
-      socket.send(JSON.stringify(data));
+      socket.current.send(JSON.stringify(data));
       setUserIdInput('');
     }
   };
@@ -96,10 +95,9 @@ export default function FriendsStatus({
             .map((friend) => {
               return (
                 <FriendStatus
+                  dispatch={dispatch}
                   key={friend.id}
                   friend={friend}
-                  setStatus={setStatus}
-                  setChatName={setChatName}
                 />
               );
             })}

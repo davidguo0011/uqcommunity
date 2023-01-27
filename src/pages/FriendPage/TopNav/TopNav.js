@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './TopNav.module.scss';
 import { FaUserFriends } from 'react-icons/fa';
+import FriendRequestNotification from '../../../components/FriendRequestNotification/FriendRequestNotification';
 
-export default function TopNav({ setCurrentType, currentType }) {
+export default function TopNav({ state, setCurrentType, currentType }) {
   const list = ['在线', '全部', '待定', '已屏蔽'];
 
   return (
@@ -22,6 +23,9 @@ export default function TopNav({ setCurrentType, currentType }) {
               className={currentType === item ? styles.active : ''}
             >
               <p>{item}</p>
+              {item === '待定' && state.notification > 0 && (
+                <FriendRequestNotification notification={state.notification} />
+              )}
             </button>
           );
         })}

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import styles from './Friend.module.scss';
 import avatar from '../../../assets/discord.png';
-import useClickOutside from '../../../hooks/clickOutside';
+import useClickOutside from '../../../hooks/useClickOutside';
 import { MdClose } from 'react-icons/md';
 import OnlineStatusIcon from '../../OnlineStatusIcon/OnlineStatusIcon';
 import { toast } from 'react-toastify';
 export default function Friend({ name, onlineStatus }) {
   const { visible, setVisible, myref } = useClickOutside(false);
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
-
   return (
     <div
       className={[styles.friendContainer, visible && styles.active].join(' ')}

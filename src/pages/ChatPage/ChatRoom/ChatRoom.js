@@ -14,9 +14,8 @@ export default function ChatRoom({ chatFriend, socket, userId }) {
   ];
   // const userId = localStorage.getItem('userId');
   const userName = localStorage.getItem('userName');
-  console.log(userId);
   useEffect(() => {
-    console.log('render');
+    console.log('1');
   }, [chatFriend]);
 
   return (
