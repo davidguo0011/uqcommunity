@@ -8,7 +8,7 @@ import { MdOutlineClose } from 'react-icons/md';
 import { BsChatSquareFill } from 'react-icons/bs';
 import { acceptFriendRequest } from '../../api/friends';
 
-export default function FriendStatus({ dispatch, friend }) {
+export default function FriendStatus({ friendDispatch, friend }) {
   const acceptFriendAction = (action) => {
     const data = {
       sendId: localStorage.getItem('userId'),
@@ -19,7 +19,7 @@ export default function FriendStatus({ dispatch, friend }) {
     };
     acceptFriendRequest(data);
     if (action === 1) {
-      dispatch({ type: 'acceptFriend', id: friend.id });
+      friendDispatch({ type: 'acceptFriend', id: friend.id });
     }
   };
   return (

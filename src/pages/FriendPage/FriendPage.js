@@ -7,20 +7,20 @@ import RightSideMenu from '../../components/RightSideMenu/RightSideMenu';
 
 export default function FriendPage() {
   const [currentType, setCurrentType] = useState('在线');
-  const [state, socket, dispatch, userId] = useOutletContext();
+  const { friendState, socket, friendDispatch, userId } = useOutletContext();
   return (
     <>
       <TopNav
         currentType={currentType}
         setCurrentType={setCurrentType}
-        state={state}
+        friendState={friendState}
       />
       <div className={styles.friendContainer}>
         <FriendsStatus
           socket={socket}
           currentType={currentType}
-          state={state}
-          dispatch={dispatch}
+          friendState={friendState}
+          friendDispatch={friendDispatch}
         />
         <RightSideMenu />
       </div>

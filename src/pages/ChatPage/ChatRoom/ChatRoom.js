@@ -3,21 +3,22 @@ import styles from './ChatRoom.module.scss';
 import avatar from '../../../assets/discord.png';
 import ChatInput from '../../../components/Chat/ChatInput/ChatInput';
 import Message from '../../../components/Chat/Message/Message';
-import { useEffect } from 'react';
 
-export default function ChatRoom({ chatFriend, socket, userId }) {
-  const dummyMessage = [
-    { id: '1', messageid: '1', message: '我真帅' },
-    { id: '9', messageid: '2', message: '有道理有道理' },
-    { id: '1', messageid: '3', message: '帅在哪' },
-    { id: '9', messageid: '4', message: '哪都帅' },
-  ];
-  // const userId = localStorage.getItem('userId');
-  const userName = localStorage.getItem('userName');
-  useEffect(() => {
-    console.log('1');
-  }, [chatFriend]);
-
+export default function ChatRoom({
+  chatFriend,
+  userId,
+  messages,
+  sendMessage,
+  userName,
+}) {
+  const convertDate = (messageId) => {
+    const unixTime = messageId.split(':')[0];
+    const date = new Date(parseInt(unixTime));
+    const year = date.toLocaleString('default', { year: 'numeric' });
+    const month = date.toLocaleString('default', { month: '2-digit' });
+    const day = date.toLocaleString('default', { day: '2-digit' });
+    return [year, month, day].join('-');
+  };
   return (
     <div className={styles.chatRoomContainer}>
       <div className={styles.chatHeader}>
@@ -29,19 +30,19 @@ export default function ChatRoom({ chatFriend, socket, userId }) {
         </div>
       </div>
       <div className={styles.chatArea}>
-        {dummyMessage.map((message) => {
+        {messages.map((message) => {
           return (
             <Message
-              chatName={message.id === userId ? userName : chatFriend.name}
+              chatName={message.sendId === userId ? userName : chatFriend.name}
               message={message.message}
-              reverse={message.id === userId}
-              dateTime='今天 12:00'
+              reverse={message.sendId === userId}
+              dateTime={convertDate(message.messageId)}
               key={message.messageid}
             />
           );
         })}
       </div>
-      <ChatInput chatFriend={chatFriend} />
+      <ChatInput chatFriend={chatFriend} sendMessage={sendMessage} />
     </div>
   );
 }

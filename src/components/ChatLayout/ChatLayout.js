@@ -22,11 +22,14 @@ export default function FriendPage() {
   const userName = localStorage.getItem('userName');
 
   //{"id":6,"name":"David","age":0,"password":null,"account":null,"gender":0,"email":null,"friendship":"friend"},{"id":7,"name":"david","age":0,"password":null,"account":null,"gender":0,"email":null,"friendship":"friend"}
-  const [state, dispatch] = useFriendReducer();
-  const { initialise, loaded } = state;
+  const [friendState, friendDispatch] = useFriendReducer();
+  const { initialise, loaded } = friendState;
   if (initialise && !loaded) {
+    if (friendState.friends.length === 0) {
+      friendDispatch({ type: 'loaded' });
+    }
     const array = [];
-    state.friends.forEach((friend) => {
+    friendState.friends.forEach((friend) => {
       array.push(friend.id);
     });
     const message = array.join(':');
@@ -34,19 +37,20 @@ export default function FriendPage() {
     const ws = initWebsocket(data);
     ws.onmessage = function (event) {
       var message = JSON.parse(event.data);
+      console.log(message);
       if (message.wsType === 'FriendStatus') {
         if (!loaded) {
-          dispatch({ type: 'loaded' });
+          friendDispatch({ type: 'loaded' });
           setSocket(ws);
         }
-        dispatch({ type: 'onlineStatus', message });
+        friendDispatch({ type: 'onlineStatus', message });
       } else if (message.message === 'addFriend') {
-        dispatch({ type: 'addFriend', message });
+        friendDispatch({ type: 'addFriend', message });
       } else if (message.wsType === 'FriendReqAccept') {
         toast.success('A friend has accepted your request!', {
           theme: 'colored',
         });
-        dispatch({ type: 'addFriendConfirm', message });
+        friendDispatch({ type: 'addFriendConfirm', message });
       }
     };
   }
@@ -59,9 +63,9 @@ export default function FriendPage() {
     <div className={styles.friendPageContainer}>
       <SideNavigation />
       <>
-        <ChatList state={state} socket={socket} />
+        <ChatList friendState={friendState} socket={socket} />
         <div className={styles.rightSection}>
-          <Outlet context={[state, socket, dispatch, userId]} />
+          <Outlet context={{ friendState, socket, friendDispatch, userId }} />
         </div>
       </>
     </div>

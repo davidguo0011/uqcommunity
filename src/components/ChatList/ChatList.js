@@ -4,9 +4,9 @@ import { FaUserFriends } from 'react-icons/fa';
 import Friend from '../Chat/Friend/Friend';
 import Me from '../Chat/Me/Me';
 import { Link } from 'react-router-dom';
-import FriendRequestNotification from '../../components/FriendRequestNotification/FriendRequestNotification';
+import Notification from '../Notification/Notification';
 
-export default function ChatList({ state, socket }) {
+export default function ChatList({ friendState }) {
   const userName = localStorage.getItem('userName');
   const [searchInput, setSearchInput] = useState('');
   return (
@@ -25,8 +25,8 @@ export default function ChatList({ state, socket }) {
         <Link to={`/friends`}>
           <FaUserFriends className={styles.friendIcon} />
           好友
-          {state.notification > 0 && (
-            <FriendRequestNotification notification={state.notification} />
+          {friendState.notification > 0 && (
+            <Notification notification={friendState.notification} />
           )}
         </Link>
       </div>
@@ -36,7 +36,7 @@ export default function ChatList({ state, socket }) {
           <button>+</button>
         </div>
 
-        {state.friends
+        {friendState.friends
           .filter((friend) => {
             return (
               friend.friendship === 'friend' &&

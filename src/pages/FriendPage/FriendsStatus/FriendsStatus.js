@@ -4,9 +4,9 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import FriendStatus from '../../../components/FriendStatus/FriendStatus';
 
 export default function FriendsStatus({
-  dispatch,
+  friendDispatch,
   socket,
-  state,
+  friendState,
   currentType,
 }) {
   const [userIdInput, setUserIdInput] = useState('');
@@ -14,43 +14,54 @@ export default function FriendsStatus({
 
   let friendList = [];
   if (currentType === '在线') {
-    friendList = state.friends.filter((friend) => {
+    friendList = friendState.friends.filter((friend) => {
       return friend.onlineStatus === 'online' && friend.friendship === 'friend';
     });
   } else if (currentType === '全部') {
-    friendList = state.friends.filter((friend) => {
+    friendList = friendState.friends.filter((friend) => {
       return friend.friendship === 'friend';
     });
   } else if (currentType === '待定') {
-    friendList = state.friends.filter((friend) => {
+    friendList = friendState.friends.filter((friend) => {
       return friend.friendship === 'wait';
     });
   } else if (currentType === '已屏蔽') {
-    friendList = state.friends.filter((friend) => {
+    friendList = friendState.friends.filter((friend) => {
       return friend.friendship === 'block';
     });
   }
 
   const sendFriendRequest = () => {
-    if (userIdInput) {
-      const receiverList = userIdInput.split('#');
-      const receiverId = parseInt(receiverList[1]);
-      const receiverName = receiverList[0];
-      const sendId = parseInt(localStorage.getItem('userId'));
-      const randomSixDigits = Math.floor(100000 + Math.random() * 900000);
-
-      const data = {
-        type: 2,
-        sendId,
-        sendName: localStorage.getItem('userName'),
-        receiverId,
-        receiverName,
-        message: 'addFriend',
-        messageId: `${Date.now()}:${sendId}:${receiverId}:${randomSixDigits}`,
-      };
-      socket.current.send(JSON.stringify(data));
-      setUserIdInput('');
+    if (!userIdInput) {
+      return;
     }
+    let friendExist = false;
+    const receiverList = userIdInput.split('#');
+    const receiverId = parseInt(receiverList[1]);
+    friendState.friends.forEach((friend) => {
+      if (friend.id === receiverId) {
+        friendExist = true;
+      }
+    });
+    if (friendExist) {
+      console.log('friend exist');
+      return;
+    }
+    const receiverName = receiverList[0];
+    const sendId = parseInt(localStorage.getItem('userId'));
+    const randomSixDigits = Math.floor(100000 + Math.random() * 900000);
+
+    const data = {
+      type: 2,
+      sendId,
+      sendName: localStorage.getItem('userName'),
+      receiverId,
+      receiverName,
+      message: 'addFriend',
+      messageId: `${Date.now()}:${sendId}:${receiverId}:${randomSixDigits}`,
+    };
+    socket.send(JSON.stringify(data));
+    setUserIdInput('');
   };
   return (
     <div className={styles.friendContainer}>
@@ -95,7 +106,7 @@ export default function FriendsStatus({
             .map((friend) => {
               return (
                 <FriendStatus
-                  dispatch={dispatch}
+                  friendDispatch={friendDispatch}
                   key={friend.id}
                   friend={friend}
                 />
