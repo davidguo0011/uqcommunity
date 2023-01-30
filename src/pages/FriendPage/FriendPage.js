@@ -7,7 +7,7 @@ import RightSideMenu from '../../components/RightSideMenu/RightSideMenu';
 
 export default function FriendPage() {
   const [currentType, setCurrentType] = useState('在线');
-  const { friendState, socket, friendDispatch, userId } = useOutletContext();
+  const { friendState, socket, friendDispatch } = useOutletContext();
   return (
     <>
       <TopNav

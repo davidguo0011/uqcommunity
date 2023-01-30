@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useOutletContext, useParams } from 'react-router-dom';
 import styles from './ChatPage.module.scss';
 import ChatRoom from './ChatRoom/ChatRoom';
 import TopNav from './TopNav/TopNav';
 import RightSideMenu from '../../components/RightSideMenu/RightSideMenu';
+import useChatReducer from '../../hooks/useChatReducer';
 
 export default function ChatPage() {
   const { friendState, socket, userId } = useOutletContext();
   const { chatId } = useParams();
   const userName = localStorage.getItem('userName');
-  const [messages, setMessages] = useState([]);
   const chatFriend = friendState.friends.filter((friend) => {
     return friend.id === parseInt(chatId);
   })[0];
+  const [chatState, chatDispatch] = useChatReducer();
 
   const sendMessage = (message) => {
     const randomSixDigits = Math.floor(100000 + Math.random() * 900000);
@@ -26,7 +27,7 @@ export default function ChatPage() {
       messageId: `${Date.now()}:${userId}:${chatFriend.id}:${randomSixDigits}`,
     };
     socket.send(JSON.stringify(data));
-    setMessages([...messages, data]);
+    chatDispatch({ type: 'addMessage', message: data });
   };
 
   return (
@@ -38,7 +39,7 @@ export default function ChatPage() {
           socket={socket}
           userId={userId}
           userName={userName}
-          messages={messages}
+          messages={chatState.messages}
           sendMessage={sendMessage}
         />
         <RightSideMenu />

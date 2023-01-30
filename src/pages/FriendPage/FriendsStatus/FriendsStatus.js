@@ -36,8 +36,7 @@ export default function FriendsStatus({
       return;
     }
     let friendExist = false;
-    const receiverList = userIdInput.split('#');
-    const receiverId = parseInt(receiverList[1]);
+    const [receiverName, receiverId] = userIdInput.split('#');
     friendState.friends.forEach((friend) => {
       if (friend.id === receiverId) {
         friendExist = true;
@@ -47,7 +46,6 @@ export default function FriendsStatus({
       console.log('friend exist');
       return;
     }
-    const receiverName = receiverList[0];
     const sendId = parseInt(localStorage.getItem('userId'));
     const randomSixDigits = Math.floor(100000 + Math.random() * 900000);
 
