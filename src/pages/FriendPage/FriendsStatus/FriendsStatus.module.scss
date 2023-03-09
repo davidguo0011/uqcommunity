@@ -13,6 +13,23 @@ $purple: rgb(90, 101, 234);
   background-color: $backgroundColor;
   padding: 10px 30px;
   box-sizing: border-box;
+  ::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: white;
+    margin-bottom: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 13px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
   .searchContainer {
     position: relative;
     margin-bottom: 20px;

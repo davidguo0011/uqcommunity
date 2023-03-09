@@ -32,31 +32,31 @@ export default function ChatPage() {
       sendTime: Date.now(),
       type: 'chatMessage',
     };
-    // if (!localStorage.getItem(chatId) || chatFriend.notification > 0) {
-    //发送请求
-    getMessages(data).then((res) => {
-      console.log(res.data);
+    if (!localStorage.getItem(chatId) || chatFriend.notification > 0) {
+      //发送请求
+      getMessages(data).then((res) => {
+        console.log(res.data);
+        chatDispatch({
+          type: 'initMessages',
+          messages: res.data,
+          currentUserId: parseInt(userId),
+          chatUserId: chatId,
+        });
+        setLoaded(true);
+        if (chatFriend.notification > 0) {
+          friendDispatch({ type: 'removeMessageNotification', id: chatId });
+        }
+        localStorage.setItem(chatId, JSON.stringify(res.data));
+      });
+    } else {
       chatDispatch({
         type: 'initMessages',
-        messages: res.data,
+        messages: JSON.parse(localStorage.getItem(chatId)),
         currentUserId: parseInt(userId),
         chatUserId: chatId,
       });
       setLoaded(true);
-      if (chatFriend.notification > 0) {
-        friendDispatch({ type: 'removeMessageNotification', id: chatId });
-      }
-      localStorage.setItem(chatId, JSON.stringify(res.data));
-    });
-    // } else {
-    //   chatDispatch({
-    //     type: 'initMessages',
-    //     messages: JSON.parse(localStorage.getItem(chatId)),
-    //     currentUserId: parseInt(userId),
-    //     chatUserId: chatId,
-    //   });
-    //   setLoaded(true);
-    //}
+    }
   }, [chatDispatch, chatFriend.notification, chatId, friendDispatch, userId]);
 
   const sendMessage = (message) => {

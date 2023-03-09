@@ -13,6 +13,23 @@ $textwhite: rgb(255, 255, 255);
   position: relative;
   box-sizing: border-box;
   justify-self: flex-end;
+  ::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: white;
+    margin-bottom: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 13px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 
   .chatHeader {
     padding: 20px;

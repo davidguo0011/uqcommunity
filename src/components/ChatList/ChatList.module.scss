@@ -60,6 +60,23 @@ $textwhite: rgb(255, 255, 255);
     padding: 0px 10px;
     overflow: scroll;
     flex: 1;
+    ::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: white;
+      margin-bottom: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: white;
+      border-radius: 13px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
 
     .header {
       width: 100%;

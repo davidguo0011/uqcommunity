@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styles from './Signup.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../../api/signup';
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const navigate = useNavigate();
   const onSignup = () => {
     const data = {
       email,
@@ -17,6 +17,7 @@ export default function Signup() {
     signup(data).then((res) => {
       if (res.respCode === '51') {
         localStorage.setItem('access_token', res.data.token);
+        navigate('/friends');
       }
     });
   };
