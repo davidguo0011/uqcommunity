@@ -23,8 +23,10 @@ export default function TopNav({ friendState, setCurrentType, currentType }) {
               className={currentType === item ? styles.active : ''}
             >
               <p>{item}</p>
-              {item === '待定' && friendState.notification > 0 && (
-                <Notification notification={friendState.notification} />
+              {item === '待定' && friendState.addFriendNotification > 0 && (
+                <Notification
+                  notification={friendState.addFriendNotification}
+                />
               )}
             </button>
           );

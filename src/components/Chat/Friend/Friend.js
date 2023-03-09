@@ -5,7 +5,8 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { MdClose } from 'react-icons/md';
 import OnlineStatusIcon from '../../OnlineStatusIcon/OnlineStatusIcon';
 import { toast } from 'react-toastify';
-export default function Friend({ name, onlineStatus }) {
+import Notification from '../../Notification/Notification';
+export default function Friend({ name, onlineStatus, notification }) {
   const { visible, setVisible, myref } = useClickOutside(false);
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   return (
@@ -30,6 +31,7 @@ export default function Friend({ name, onlineStatus }) {
           <OnlineStatusIcon onlineStatus={onlineStatus} />
         </div>
         <p>{name}</p>
+        {notification > 0 && <Notification notification={notification} />}
       </button>
       <button
         className={[

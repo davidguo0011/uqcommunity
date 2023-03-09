@@ -17,9 +17,13 @@ export default function FriendStatus({ friendDispatch, friend }) {
       receiverName: friend.name,
       action,
     };
+
     acceptFriendRequest(data);
+
     if (action === 1) {
       friendDispatch({ type: 'acceptFriend', id: friend.id });
+    } else {
+      friendDispatch({ type: 'denyFriend', id: friend.id });
     }
   };
   return (
@@ -43,7 +47,7 @@ export default function FriendStatus({ friendDispatch, friend }) {
             <button
               className={styles.no}
               onClick={() => {
-                acceptFriendAction(0);
+                acceptFriendAction(2);
               }}
             >
               <MdOutlineClose />

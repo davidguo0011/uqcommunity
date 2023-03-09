@@ -11,9 +11,8 @@ export default function ChatRoom({
   sendMessage,
   userName,
 }) {
-  const convertDate = (messageId) => {
-    const unixTime = messageId.split(':')[0];
-    const date = new Date(parseInt(unixTime));
+  const convertDate = (sendTime) => {
+    const date = new Date(sendTime);
     const year = date.toLocaleString('default', { year: 'numeric' });
     const month = date.toLocaleString('default', { month: '2-digit' });
     const day = date.toLocaleString('default', { day: '2-digit' });
@@ -30,17 +29,21 @@ export default function ChatRoom({
         </div>
       </div>
       <div className={styles.chatArea}>
-        {messages.map((message) => {
-          return (
-            <Message
-              chatName={message.sendId === userId ? userName : chatFriend.name}
-              message={message.message}
-              reverse={message.sendId === userId}
-              dateTime={convertDate(message.messageId)}
-              key={message.messageid}
-            />
-          );
-        })}
+        {messages
+          .sort((a, b) => (a.sendTime > b.sendTime ? 1 : -1))
+          .map((message) => {
+            return (
+              <Message
+                chatName={
+                  message.sendId === userId ? userName : chatFriend.name
+                }
+                message={message.message}
+                reverse={message.sendId === userId}
+                dateTime={convertDate(message.sendTime)}
+                key={message.sendTime}
+              />
+            );
+          })}
       </div>
       <ChatInput chatFriend={chatFriend} sendMessage={sendMessage} />
     </div>

@@ -16,7 +16,7 @@ export default function Message({ chatName, message, reverse, dateTime }) {
         <h4>
           {reverse && (
             <>
-              <span>今天 12:00</span> {chatName}
+              <span>{dateTime}</span> {chatName}
             </>
           )}
           {!reverse && (

@@ -58,6 +58,7 @@ export default function FriendsStatus({
       message: 'addFriend',
       messageId: `${Date.now()}:${sendId}:${receiverId}:${randomSixDigits}`,
     };
+
     socket.send(JSON.stringify(data));
     setUserIdInput('');
   };

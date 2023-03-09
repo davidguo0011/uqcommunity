@@ -6,14 +6,26 @@ export default function useFriendReducer() {
     friends: [],
     initialise: false,
     loaded: false,
-    notification: 0,
+    addFriendNotification: 0,
   };
 
   const reducerFunction = (state, action) => {
-    const prevState = { ...state };
+    const prevState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
       case 'initialiseFriends':
-        return { ...state, friends: action.friends, initialise: true };
+        let addFriendNotification = 0;
+        const friends = action.friends.map((friend) => {
+          if (friend.friendship === 'wait') {
+            addFriendNotification += 1;
+          }
+          return friend;
+        });
+        return {
+          ...state,
+          friends: friends,
+          initialise: true,
+          addFriendNotification,
+        };
       case 'loaded':
         return { ...state, loaded: true };
       case 'onlineStatus':
@@ -37,7 +49,7 @@ export default function useFriendReducer() {
               onlineStatus: 'offline',
             },
           ],
-          notification: state.notification + 1,
+          addFriendNotification: state.addFriendNotification + 1,
         };
       case 'acceptFriend':
         prevState.friends.forEach((friend) => {
@@ -45,7 +57,13 @@ export default function useFriendReducer() {
             friend.friendship = 'friend';
           }
         });
-        prevState.notification--;
+        prevState.addFriendNotification--;
+        return prevState;
+      case 'denyFriend':
+        prevState.friends = prevState.friends.filter((friend) => {
+          return friend.id !== action.id;
+        });
+        prevState.addFriendNotification--;
         return prevState;
       case 'addFriendConfirm':
         return {
@@ -60,6 +78,20 @@ export default function useFriendReducer() {
             },
           ],
         };
+      case 'messageNotification':
+        prevState.friends.forEach((friend) => {
+          if (action.message.data.sendId === friend.id) {
+            friend.notification = friend.notification + 1;
+          }
+        });
+        return prevState;
+      case 'removeMessageNotification':
+        prevState.friends.forEach((friend) => {
+          if (action.id === friend.id) {
+            friend.notification = 0;
+          }
+        });
+        return prevState;
       default:
         return state;
     }
@@ -70,14 +102,21 @@ export default function useFriendReducer() {
   const navigate = useNavigate();
   useEffect(() => {
     const data = { id: userId };
-    // get friends
-    getFriends(data)
-      .then((res) => {
-        dispatch({ type: 'initialiseFriends', friends: res.data.friends });
-      })
-      .catch(() => {
-        navigate('/login');
-      });
-  }, [navigate, userId]);
+    if (!state.initialise) {
+      getFriends(data)
+        .then((res) => {
+          console.log(JSON.parse(JSON.stringify(res.data.friends)));
+
+          dispatch({
+            type: 'initialiseFriends',
+            friends: JSON.parse(JSON.stringify(res.data.friends)),
+          });
+        })
+        .catch(() => {
+          navigate('/login');
+        });
+    }
+  }, [navigate, state.initialise, userId]);
+
   return [state, dispatch];
 }

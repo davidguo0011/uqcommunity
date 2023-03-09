@@ -7,6 +7,7 @@ import { initWebsocket } from '../../api/websocket';
 import useFriendReducer from '../../hooks/useFriendReducer';
 import { toast } from 'react-toastify';
 import LoadPageSpinner from '../Spinner/LoadPageSpinner/LoadPageSpinner';
+import useChatReducer from '../../hooks/useChatReducer';
 
 export default function FriendPage() {
   // const dummyFriendList = [
@@ -18,16 +19,14 @@ export default function FriendPage() {
   //   { id: '8', name: 'ben', onlineStatus: 'offline', friendship: 'wait' },
   // ];
   const [socket, setSocket] = useState();
-  const userId = localStorage.getItem('userId');
+  const userId = parseInt(localStorage.getItem('userId'));
   const userName = localStorage.getItem('userName');
-
+  const [chatState, chatDispatch] = useChatReducer();
   //{"id":6,"name":"David","age":0,"password":null,"account":null,"gender":0,"email":null,"friendship":"friend"},{"id":7,"name":"david","age":0,"password":null,"account":null,"gender":0,"email":null,"friendship":"friend"}
   const [friendState, friendDispatch] = useFriendReducer();
   const { initialise, loaded } = friendState;
   if (initialise && !loaded) {
-    if (friendState.friends.length === 0) {
-      friendDispatch({ type: 'loaded' });
-    }
+    //init
     const array = [];
     friendState.friends.forEach((friend) => {
       array.push(friend.id);
@@ -35,6 +34,11 @@ export default function FriendPage() {
     const message = array.join(':');
     const data = { type: '1', sendId: userId, sendName: userName, message };
     const ws = initWebsocket(data);
+    if (friendState.friends.length === 0) {
+      friendDispatch({ type: 'loaded' });
+      setSocket(ws);
+    }
+    //listen to websocket
     ws.onmessage = function (event) {
       var message = JSON.parse(event.data);
       console.log(message);
@@ -51,10 +55,21 @@ export default function FriendPage() {
           theme: 'colored',
         });
         friendDispatch({ type: 'addFriendConfirm', message });
+      } else if (message.wsType === 'chatMessage') {
+        console.log(chatState.chatUserId);
+        console.log(message.data.sendId);
+        if (chatState.chatUserId !== message.data.sendId) {
+          friendDispatch({ type: 'messageNotification', message });
+        } else {
+          chatDispatch({
+            type: 'addMessage',
+            message: message.data,
+            chatId: chatState.chatUserId,
+          });
+        }
       }
     };
   }
-
   if (!initialise || !loaded) {
     return <LoadPageSpinner />;
   }
@@ -63,9 +78,22 @@ export default function FriendPage() {
     <div className={styles.friendPageContainer}>
       <SideNavigation />
       <>
-        <ChatList friendState={friendState} socket={socket} />
+        <ChatList
+          friendState={friendState}
+          socket={socket}
+          friendDispatch={friendDispatch}
+        />
         <div className={styles.rightSection}>
-          <Outlet context={{ friendState, socket, friendDispatch, userId }} />
+          <Outlet
+            context={{
+              friendState,
+              socket,
+              friendDispatch,
+              userId,
+              chatDispatch,
+              chatState,
+            }}
+          />
         </div>
       </>
     </div>
