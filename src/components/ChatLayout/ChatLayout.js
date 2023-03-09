@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ChatLayout.module.scss';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ChatList from '../../components/ChatList/ChatList';
@@ -25,6 +25,7 @@ export default function FriendPage() {
   //{"id":6,"name":"David","age":0,"password":null,"account":null,"gender":0,"email":null,"friendship":"friend"},{"id":7,"name":"david","age":0,"password":null,"account":null,"gender":0,"email":null,"friendship":"friend"}
   const [friendState, friendDispatch] = useFriendReducer();
   const { initialise, loaded } = friendState;
+
   if (initialise && !loaded) {
     //init
     const array = [];
@@ -34,42 +35,42 @@ export default function FriendPage() {
     const message = array.join(':');
     const data = { type: '1', sendId: userId, sendName: userName, message };
     const ws = initWebsocket(data);
-    if (friendState.friends.length === 0) {
-      friendDispatch({ type: 'loaded' });
-      setSocket(ws);
-    }
+    setSocket(ws);
+    friendDispatch({ type: 'loaded' });
+
     //listen to websocket
-    ws.onmessage = function (event) {
-      var message = JSON.parse(event.data);
-      console.log(message);
-      if (message.wsType === 'FriendStatus') {
-        if (!loaded) {
-          friendDispatch({ type: 'loaded' });
-          setSocket(ws);
-        }
-        friendDispatch({ type: 'onlineStatus', message });
-      } else if (message.message === 'addFriend') {
-        friendDispatch({ type: 'addFriend', message });
-      } else if (message.wsType === 'FriendReqAccept') {
-        toast.success('A friend has accepted your request!', {
-          theme: 'colored',
-        });
-        friendDispatch({ type: 'addFriendConfirm', message });
-      } else if (message.wsType === 'chatMessage') {
-        console.log(chatState.chatUserId);
-        console.log(message.data.sendId);
-        if (chatState.chatUserId !== message.data.sendId) {
-          friendDispatch({ type: 'messageNotification', message });
-        } else {
-          chatDispatch({
-            type: 'addMessage',
-            message: message.data,
-            chatId: chatState.chatUserId,
-          });
-        }
-      }
-    };
   }
+  useEffect(() => {
+    if (socket) {
+      socket.onmessage = function (event) {
+        var message = JSON.parse(event.data);
+        console.log(message);
+        if (message.wsType === 'FriendStatus') {
+          friendDispatch({ type: 'onlineStatus', message });
+        } else if (message.message === 'addFriend') {
+          friendDispatch({ type: 'addFriend', message });
+        } else if (message.wsType === 'FriendReqAccept') {
+          toast.success('A friend has accepted your request!', {
+            theme: 'colored',
+          });
+          friendDispatch({ type: 'addFriendConfirm', message });
+        } else if (message.wsType === 'chatMessage') {
+          console.log(chatState);
+          console.log(message.data.sendId);
+          if (chatState.chatUserId !== message.data.sendId) {
+            friendDispatch({ type: 'messageNotification', message });
+          } else {
+            chatDispatch({
+              type: 'addMessage',
+              message: message.data,
+              chatId: chatState.chatUserId,
+            });
+          }
+        }
+      };
+    }
+  }, [chatDispatch, chatState, friendDispatch, socket]);
+
   if (!initialise || !loaded) {
     return <LoadPageSpinner />;
   }

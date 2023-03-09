@@ -35,11 +35,10 @@ export default function ChatPage() {
     if (!localStorage.getItem(chatId) || chatFriend.notification > 0) {
       //发送请求
       getMessages(data).then((res) => {
-        console.log(res.data);
         chatDispatch({
           type: 'initMessages',
           messages: res.data,
-          currentUserId: parseInt(userId),
+          currentUserId: userId,
           chatUserId: chatId,
         });
         setLoaded(true);
