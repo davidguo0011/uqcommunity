@@ -20,6 +20,8 @@ export default function Signup() {
     signup(data).then((res) => {
       if (res.respCode === '051') {
         localStorage.setItem('access_token', res.data.token);
+        localStorage.setItem('userName', res.data.name);
+        localStorage.setItem('userId', res.data.id);
         navigate('/friends');
       }
     });
