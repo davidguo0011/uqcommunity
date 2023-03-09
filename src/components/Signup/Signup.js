@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import styles from './Signup.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../../api/signup';
+import LoginSpinner from '../Spinner/LoginSpinner/LoginSpinner';
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
   const navigate = useNavigate();
   const onSignup = () => {
     const data = {
@@ -14,8 +16,9 @@ export default function Signup() {
       password,
       name: username,
     };
+    setShowSpinner(true);
     signup(data).then((res) => {
-      if (res.respCode === '51') {
+      if (res.respCode === '051') {
         localStorage.setItem('access_token', res.data.token);
         navigate('/friends');
       }
@@ -50,7 +53,7 @@ export default function Signup() {
         />
       </div>
       <button className={styles.signupBtn} onClick={onSignup}>
-        Continue
+        {showSpinner ? <LoginSpinner /> : 'Continue'}
       </button>
       <div className={styles.registerContainer}>
         <Link to='/login'>Already have an account?</Link>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './FriendsStatus.module.scss';
 import { AiOutlineSearch } from 'react-icons/ai';
 import FriendStatus from '../../../components/FriendStatus/FriendStatus';
+import { toast } from 'react-toastify';
 
 export default function FriendsStatus({
   friendDispatch,
@@ -60,6 +61,8 @@ export default function FriendsStatus({
     };
 
     socket.send(JSON.stringify(data));
+    toast.success('Friend request is sent', { theme: 'colored' });
+
     setUserIdInput('');
   };
   return (
