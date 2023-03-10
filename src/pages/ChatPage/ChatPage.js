@@ -51,7 +51,6 @@ export default function ChatPage() {
         const chats = JSON.parse(localStorage.getItem('chats'));
         chats[chatId] = res.data;
         localStorage.setItem('chats', JSON.stringify(chats));
-        console.log(JSON.parse(localStorage.getItem('chats')));
       });
     } else {
       chatDispatch({
