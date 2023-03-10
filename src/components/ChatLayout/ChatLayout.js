@@ -55,8 +55,6 @@ export default function FriendPage() {
           });
           friendDispatch({ type: 'addFriendConfirm', message });
         } else if (message.wsType === 'chatMessage') {
-          console.log(chatState);
-          console.log(message.data.sendId);
           if (chatState.chatUserId !== message.data.sendId) {
             friendDispatch({ type: 'messageNotification', message });
           } else {

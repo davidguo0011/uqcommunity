@@ -32,7 +32,10 @@ export default function ChatPage() {
       sendTime: Date.now(),
       type: 'chatMessage',
     };
-    if (!localStorage.getItem(chatId) || chatFriend.notification > 0) {
+    if (
+      !JSON.parse(localStorage.getItem('chats'))[chatId] ||
+      chatFriend.notification > 0
+    ) {
       //发送请求
       getMessages(data).then((res) => {
         chatDispatch({
@@ -45,12 +48,15 @@ export default function ChatPage() {
         if (chatFriend.notification > 0) {
           friendDispatch({ type: 'removeMessageNotification', id: chatId });
         }
-        localStorage.setItem(chatId, JSON.stringify(res.data));
+        const chats = JSON.parse(localStorage.getItem('chats'));
+        chats[chatId] = res.data;
+        localStorage.setItem('chats', JSON.stringify(chats));
+        console.log(JSON.parse(localStorage.getItem('chats')));
       });
     } else {
       chatDispatch({
         type: 'initMessages',
-        messages: JSON.parse(localStorage.getItem(chatId)),
+        messages: JSON.parse(localStorage.getItem('chats'))[chatId],
         currentUserId: parseInt(userId),
         chatUserId: chatId,
       });

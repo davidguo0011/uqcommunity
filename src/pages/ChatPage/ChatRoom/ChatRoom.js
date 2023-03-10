@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './ChatRoom.module.scss';
 import avatar from '../../../assets/discord.png';
 import ChatInput from '../../../components/Chat/ChatInput/ChatInput';
 import Message from '../../../components/Chat/Message/Message';
+import { useEffect } from 'react';
 
 export default function ChatRoom({
   chatFriend,
@@ -11,6 +12,7 @@ export default function ChatRoom({
   sendMessage,
   userName,
 }) {
+  const scrollRef = useRef([]);
   const convertDate = (sendTime) => {
     const date = new Date(sendTime);
     const year = date.toLocaleString('default', { year: 'numeric' });
@@ -18,6 +20,12 @@ export default function ChatRoom({
     const day = date.toLocaleString('default', { day: '2-digit' });
     return [year, month, day].join('-');
   };
+  useEffect(() => {
+    scrollRef.current.lastChild.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  }, [messages]);
   return (
     <div className={styles.chatRoomContainer}>
       <div className={styles.chatHeader}>
@@ -28,7 +36,7 @@ export default function ChatRoom({
           <button>屏蔽</button>
         </div>
       </div>
-      <div className={styles.chatArea}>
+      <div className={styles.chatArea} ref={scrollRef}>
         {messages
           .sort((a, b) => (a.sendTime > b.sendTime ? 1 : -1))
           .map((message) => {
@@ -41,6 +49,7 @@ export default function ChatRoom({
                 reverse={message.sendId === userId}
                 dateTime={convertDate(message.sendTime)}
                 key={message.sendTime}
+                ref={(element) => scrollRef.current.push(element)}
               />
             );
           })}

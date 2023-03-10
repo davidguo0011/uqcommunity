@@ -105,8 +105,6 @@ export default function useFriendReducer() {
     if (!state.initialise) {
       getFriends(data)
         .then((res) => {
-          console.log(JSON.parse(JSON.stringify(res.data.friends)));
-
           dispatch({
             type: 'initialiseFriends',
             friends: JSON.parse(JSON.stringify(res.data.friends)),

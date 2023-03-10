@@ -20,6 +20,7 @@ export default function Login() {
           localStorage.setItem('userName', res.data.name);
           localStorage.setItem('access_token', res.data.token);
           localStorage.setItem('userId', res.data.id);
+          localStorage.setItem('chats', '{}');
           navigate('/friends');
         }
       });

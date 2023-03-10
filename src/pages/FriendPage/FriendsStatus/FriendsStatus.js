@@ -44,7 +44,7 @@ export default function FriendsStatus({
       }
     });
     if (friendExist) {
-      console.log('friend exist');
+      toast.error('friend exist', { theme: 'colored' });
       return;
     }
     const sendId = parseInt(localStorage.getItem('userId'));

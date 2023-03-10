@@ -17,10 +17,9 @@ export default function useChatReducer() {
           chatUserId: action.chatUserId,
         };
       case 'addMessage':
-        localStorage.setItem(
-          action.chatId,
-          JSON.stringify([...state.messages, action.message])
-        );
+        const chats = JSON.parse(localStorage.getItem('chats'));
+        chats[action.chatId] = [...state.messages, action.message];
+        localStorage.setItem('chats', JSON.stringify(chats));
         return {
           ...state,
           messages: [...state.messages, action.message],
