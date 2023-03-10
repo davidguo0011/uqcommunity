@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Me.module.scss';
-import avatar from '../../../assets/discord.png';
+import avatar from '../../../assets/avatar.png';
 import { AiFillSetting } from 'react-icons/ai';
 
 export default function Friend({ name }) {

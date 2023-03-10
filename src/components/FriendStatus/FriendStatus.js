@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './FriendStatus.module.scss';
 import OnlineStatusIcon from '../OnlineStatusIcon/OnlineStatusIcon';
-import avatar from '../../assets/discord.png';
+import avatar from '../../assets/avatar.png';
 import { Link } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineClose } from 'react-icons/md';

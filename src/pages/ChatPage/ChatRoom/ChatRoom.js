@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import styles from './ChatRoom.module.scss';
-import avatar from '../../../assets/discord.png';
+import avatar from '../../../assets/avatar.png';
 import ChatInput from '../../../components/Chat/ChatInput/ChatInput';
 import Message from '../../../components/Chat/Message/Message';
 import { useEffect } from 'react';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Message.module.scss';
-import avatar from '../../../assets/discord.png';
+import avatar from '../../../assets/avatar.png';
 
 export default function Message({ chatName, message, reverse, dateTime }) {
   return (

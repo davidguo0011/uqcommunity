@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Friend.module.scss';
-import avatar from '../../../assets/discord.png';
+import avatar from '../../../assets/avatar.png';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { MdClose } from 'react-icons/md';
 import OnlineStatusIcon from '../../OnlineStatusIcon/OnlineStatusIcon';
