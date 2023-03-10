@@ -8,11 +8,11 @@ $textwhite: rgb(255, 255, 255);
 .chatRoomContainer {
   width: 70%;
   height: calc(100vh - 50px);
-  overflow: scroll;
   background-color: $backgroundColor;
   position: relative;
   box-sizing: border-box;
-  justify-self: flex-end;
+  display: flex;
+  flex-direction: column;
 
   .chatHeader {
     padding: 20px;
@@ -36,10 +36,11 @@ $textwhite: rgb(255, 255, 255);
     }
   }
   .chatArea {
-    min-height: 64vh;
     padding: 0px 20px;
+    overflow: scroll;
     display: flex;
     flex-direction: column;
+    flex: 1;
   }
 }
 
