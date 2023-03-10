@@ -21,10 +21,12 @@ export default function ChatRoom({
     return [year, month, day].join('-');
   };
   useEffect(() => {
-    scrollRef.current.lastChild.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-    });
+    if (scrollRef.current.lastChild) {
+      scrollRef.current.lastChild.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }
   }, [messages]);
   return (
     <div className={styles.chatRoomContainer}>
