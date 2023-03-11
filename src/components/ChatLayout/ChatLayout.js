@@ -46,9 +46,6 @@ export default function FriendPage() {
         var message = JSON.parse(event.data);
         console.log(message);
         if (message.wsType === 'FriendStatus') {
-          if (!loaded) {
-            friendDispatch({ type: 'loaded' });
-          }
           friendDispatch({ type: 'onlineStatus', message });
         } else if (message.message === 'addFriend') {
           friendDispatch({ type: 'addFriend', message });
