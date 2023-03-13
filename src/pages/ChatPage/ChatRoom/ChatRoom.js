@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './ChatRoom.module.scss';
 import avatar from '../../../assets/avatar.png';
 import ChatInput from '../../../components/Chat/ChatInput/ChatInput';
@@ -11,8 +11,10 @@ export default function ChatRoom({
   messages,
   sendMessage,
   userName,
+  chatId,
 }) {
   const scrollRef = useRef([]);
+  const [firstRender, setFirstRender] = useState(true);
   const convertDate = (sendTime) => {
     const date = new Date(sendTime);
     const year = date.toLocaleString('default', { year: 'numeric' });
@@ -20,14 +22,26 @@ export default function ChatRoom({
     const day = date.toLocaleString('default', { day: '2-digit' });
     return [year, month, day].join('-');
   };
+
   useEffect(() => {
-    if (scrollRef.current.lastChild) {
-      scrollRef.current.lastChild.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-      });
+    setFirstRender(true);
+  }, [chatId]);
+
+  useEffect(() => {
+    if (firstRender) {
+      scrollRef.current.scrollTop =
+        scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
+      setFirstRender(false);
+    } else {
+      if (scrollRef.current.lastChild) {
+        scrollRef.current.lastChild.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
+      }
     }
-  }, [messages]);
+  }, [messages, firstRender]);
+
   return (
     <div className={styles.chatRoomContainer}>
       <div className={styles.chatHeader}>
@@ -51,7 +65,6 @@ export default function ChatRoom({
                 reverse={message.sendId === userId}
                 dateTime={convertDate(message.sendTime)}
                 key={message.sendTime}
-                ref={(element) => scrollRef.current.push(element)}
               />
             );
           })}

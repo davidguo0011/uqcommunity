@@ -92,6 +92,7 @@ export default function ChatPage() {
             userName={userName}
             messages={chatState.messages}
             sendMessage={sendMessage}
+            chatId={chatId}
           />
         )}
         <RightSideMenu />
