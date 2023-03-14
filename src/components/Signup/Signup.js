@@ -23,6 +23,12 @@ export default function Signup() {
         localStorage.setItem('userName', res.data.name);
         localStorage.setItem('userId', res.data.id);
         localStorage.setItem('chats', '{}');
+        localStorage.setItem('bannerColor', res.data.bannerColor);
+        localStorage.setItem('avatar', res.data.avatar);
+        localStorage.setItem('phone', null);
+        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('selfIntro', null);
+
         navigate('/friends');
       }
     });

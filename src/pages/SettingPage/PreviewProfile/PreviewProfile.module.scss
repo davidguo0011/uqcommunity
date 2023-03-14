@@ -1,0 +1,114 @@
+$gray: rgb(47, 49, 54);
+$dark: rgb(35, 34, 40);
+$lightGray: rgb(55, 57, 62);
+$extraDark: rgb(18, 18, 20);
+$extralightGray: rgb(78, 80, 87);
+$textgray: rgb(188, 188, 189);
+$textwhite: rgb(255, 255, 255);
+$blue: rgb(90, 100, 234);
+$darkBlue: rgb(77, 85, 197);
+$yellow: rgb(238, 170, 65);
+.previewProfileContainer {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+  position: relative;
+  .avatarContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 6px solid $dark;
+      object-fit: cover;
+    }
+    .onlineStatus {
+      position: absolute;
+      top: 60px;
+      left: 63px;
+      width: 15px;
+      height: 15px;
+      border: 6px solid $dark;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $extralightGray;
+      .innerCircle {
+        width: 8px;
+        height: 8px;
+        background-color: $dark;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .banner {
+    height: 20%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .content {
+    height: 80%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: $dark;
+    padding: 60px 15px 15px 15px;
+    .contentContainer {
+      box-sizing: border-box;
+      padding: 15px;
+      background-color: $extraDark;
+      border-radius: 10px;
+      height: 100%;
+      p {
+        color: $textwhite;
+        padding: 10px 0px;
+        font-size: 13px;
+        font-weight: bold;
+      }
+      h4 {
+        border-bottom: 1px solid $gray;
+        padding-bottom: 10px;
+        span {
+          color: $textgray;
+        }
+      }
+      .counterContainer {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 10px;
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 10px;
+          background-color: $blue;
+          padding: 10px;
+          box-sizing: border-box;
+        }
+        p {
+          span {
+            display: block;
+          }
+        }
+      }
+      button {
+        width: 100%;
+        background-color: $extralightGray;
+        color: $textwhite;
+        border-radius: 5px;
+        height: 35px;
+        border: none;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: $lightGray;
+        color: $textgray;
+      }
+    }
+  }
+}

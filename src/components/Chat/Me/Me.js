@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Me.module.scss';
-import avatar from '../../../assets/avatar.png';
 import { AiFillSetting } from 'react-icons/ai';
+import SettingPagePortal from '../../../pages/SettingPage/SettingPage';
 
-export default function Friend({ name }) {
+export default function Me({ name, avatar, setUserName, setAvatar }) {
+  const [showSetting, setShowSetting] = useState(false);
   return (
     <div className={styles.container}>
       <img src={avatar} alt='avatar' className={styles.avatar} />
       <p>{name}</p>
-      <button>
+      <button
+        onClick={() => {
+          setShowSetting(true);
+        }}
+      >
         <AiFillSetting />
       </button>
+      {showSetting && (
+        <SettingPagePortal
+          setUserName={setUserName}
+          setAvatar={setAvatar}
+          closePortal={() => {
+            setShowSetting(false);
+          }}
+        />
+      )}
     </div>
   );
 }

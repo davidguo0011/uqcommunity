@@ -21,6 +21,12 @@ export default function Login() {
           localStorage.setItem('access_token', res.data.token);
           localStorage.setItem('userId', res.data.id);
           localStorage.setItem('chats', '{}');
+          localStorage.setItem('bannerColor', res.data.bannerColor);
+          localStorage.setItem('avatar', res.data.avatar);
+          localStorage.setItem('phone', res.data.phone);
+          localStorage.setItem('email', res.data.email);
+          localStorage.setItem('selfIntro', res.data.selfIntro);
+
           navigate('/friends');
         }
       });

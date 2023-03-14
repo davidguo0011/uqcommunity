@@ -6,8 +6,10 @@ import Me from '../Chat/Me/Me';
 import { Link } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 
-export default function ChatList({ friendState, friendDispatch }) {
-  const userName = localStorage.getItem('userName');
+export default function ChatList({ friendState }) {
+  const [userName, setUserName] = useState(localStorage.getItem('userName'));
+  const [avatar, setAvatar] = useState(localStorage.getItem('avatar'));
+
   const [searchInput, setSearchInput] = useState('');
   return (
     <div className={styles.chatListContainer}>
@@ -57,7 +59,12 @@ export default function ChatList({ friendState, friendDispatch }) {
             );
           })}
       </div>
-      <Me name={userName} />
+      <Me
+        name={userName}
+        avatar={avatar}
+        setUserName={setUserName}
+        setAvatar={setAvatar}
+      />
     </div>
   );
 }

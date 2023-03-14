@@ -1,0 +1,122 @@
+$gray: rgb(47, 49, 54);
+$dark: rgb(32, 34, 37);
+$lightGray: rgb(55, 57, 62);
+$textgray: rgb(188, 188, 189);
+$textwhite: rgb(255, 255, 255);
+@keyframes mountPulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes unMountPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+.mount {
+  animation: mountPulse 0.3s;
+}
+.unmount {
+  animation: unMountPulse 0.3s;
+}
+.settingPageContainer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  font-weight: bold;
+}
+.sideNav {
+  background-color: $dark;
+  max-height: 100vh;
+  color: $textgray;
+  width: 30%;
+  min-width: 200px;
+  padding-top: 50px;
+  overflow: scroll;
+
+  ul {
+    list-style: none;
+    width: 160px;
+    margin: 0 20px 0 auto;
+    padding: 0px 10px;
+    border-bottom: 1px solid $gray;
+    p {
+      padding: 0px 10px;
+      font-weight: bolder;
+      font-size: 12px;
+    }
+    li {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 7px 0px;
+      cursor: pointer;
+    }
+    li:hover {
+      background: rgba(149, 149, 149, 0.1);
+      color: $textwhite;
+    }
+    .active {
+      background: rgba(255, 255, 255, 0.1);
+      color: $textwhite;
+    }
+  }
+  .logout {
+    li {
+      display: flex;
+      align-items: center;
+      .icon {
+        margin-left: auto;
+      }
+    }
+  }
+}
+.main {
+  background-color: $gray;
+  width: 70%;
+  min-width: 1200px;
+  height: 100vh;
+  position: relative;
+  overflow: scroll;
+
+  .exitBtn {
+    color: $textgray;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid $textgray;
+    background-color: $gray;
+    position: absolute;
+    top: 50px;
+    right: 350px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .exitBtn:hover {
+    border: 2px solid $textwhite;
+    color: $textwhite;
+  }
+}
+.main::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}

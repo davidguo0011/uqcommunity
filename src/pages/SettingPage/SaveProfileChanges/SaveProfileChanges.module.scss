@@ -1,0 +1,79 @@
+$dark: rgb(17, 18, 20);
+$green: rgb(65, 126, 76);
+$darkGreen: rgb(50, 97, 59);
+$textwhite: rgb(255, 255, 255);
+
+@mixin btn {
+  border-radius: 5px;
+  height: 35px;
+  width: 80px;
+  border: none;
+  color: $textwhite;
+  cursor: pointer;
+  font-weight: bold;
+}
+@keyframes mountPulse {
+  0% {
+    transform: translateY(300px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@keyframes unMountPulse {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(300px);
+    opacity: 0;
+  }
+}
+.onMount {
+  animation: mountPulse 0.3s;
+}
+.unMount {
+  animation: unMountPulse 0.3s;
+}
+.saveProfileChangesContainer {
+  width: 700px;
+  height: 60px;
+  background-color: $dark;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  box-sizing: border-box;
+  p {
+    font-size: 16px;
+    font-weight: bold;
+    color: $textwhite;
+  }
+  .btnContainer {
+    display: flex;
+    gap: 20px;
+    button {
+      @include btn();
+      background-color: transparent;
+    }
+    .saveChangesBtn {
+      background-color: $green;
+    }
+    .saveChangesBtn:hover {
+      background-color: $darkGreen;
+    }
+  }
+}
