@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useOutletContext, useParams } from 'react-router-dom';
 import styles from './ChatPage.module.scss';
 import ChatRoom from './ChatRoom/ChatRoom';
@@ -7,19 +7,15 @@ import RightSideMenu from '../../components/RightSideMenu/RightSideMenu';
 import { useEffect } from 'react';
 import LoadChatRoomSpinner from '../../components/Spinner/LoadChatRoomSpinner/LoadChatRoomSpinner';
 import { getMessages } from '../../api/message';
+import { UserContext } from '../../context/UserContext';
 
 export default function ChatPage() {
-  const {
-    friendState,
-    socket,
-    userId,
-    chatDispatch,
-    chatState,
-    friendDispatch,
-  } = useOutletContext();
+  const { friendState, socket, chatDispatch, chatState, friendDispatch } =
+    useOutletContext();
   const chatId = parseInt(useParams().chatId);
   const [loaded, setLoaded] = useState(false);
-  const userName = localStorage.getItem('userName');
+  const userContext = useContext(UserContext);
+
   const chatFriend = friendState.friends.filter((friend) => {
     return friend.id === parseInt(chatId);
   })[0];
@@ -27,7 +23,7 @@ export default function ChatPage() {
   useEffect(() => {
     chatDispatch({ type: 'clearMessages' });
     const data = {
-      sendId: userId,
+      sendId: userContext.userState.userId,
       receiverId: chatId,
       sendTime: Date.now(),
       type: 'chatMessage',
@@ -41,7 +37,7 @@ export default function ChatPage() {
         chatDispatch({
           type: 'initMessages',
           messages: res.data,
-          currentUserId: userId,
+          currentUserId: userContext.userState.userId,
           chatUserId: chatId,
         });
         setLoaded(true);
@@ -56,23 +52,31 @@ export default function ChatPage() {
       chatDispatch({
         type: 'initMessages',
         messages: JSON.parse(localStorage.getItem('chats'))[chatId],
-        currentUserId: parseInt(userId),
+        currentUserId: parseInt(userContext.userState.userId),
         chatUserId: chatId,
       });
       setLoaded(true);
     }
-  }, [chatDispatch, chatFriend.notification, chatId, friendDispatch, userId]);
+  }, [
+    chatDispatch,
+    chatFriend.notification,
+    chatId,
+    friendDispatch,
+    userContext.userState.userId,
+  ]);
 
   const sendMessage = (message) => {
     const randomSixDigits = Math.floor(100000 + Math.random() * 900000);
     const data = {
       type: 3,
-      sendId: userId,
-      sendName: userName,
+      sendId: userContext.userState.userId,
+      sendName: userContext.userState.userName,
       receiverId: chatFriend.id,
       receiverName: chatFriend.name,
       message,
-      messageId: `${Date.now()}:${userId}:${chatFriend.id}:${randomSixDigits}`,
+      messageId: `${Date.now()}:${userContext.userState.userId}:${
+        chatFriend.id
+      }:${randomSixDigits}`,
       sendTime: Date.now(),
     };
     socket.send(JSON.stringify(data));
@@ -88,8 +92,6 @@ export default function ChatPage() {
           <ChatRoom
             chatFriend={chatFriend}
             socket={socket}
-            userId={userId}
-            userName={userName}
             messages={chatState.messages}
             sendMessage={sendMessage}
             chatId={chatId}

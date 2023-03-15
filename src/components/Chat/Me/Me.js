@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './Me.module.scss';
 import { AiFillSetting } from 'react-icons/ai';
 import SettingPagePortal from '../../../pages/SettingPage/SettingPage';
+import { UserContext } from '../../../context/UserContext';
 
-export default function Me({ name, avatar, setUserName, setAvatar }) {
+export default function Me() {
   const [showSetting, setShowSetting] = useState(false);
+  const userContext = useContext(UserContext);
+
   return (
     <div className={styles.container}>
-      <img src={avatar} alt='avatar' className={styles.avatar} />
-      <p>{name}</p>
+      <img
+        src={userContext.userState.avatar}
+        alt='avatar'
+        className={styles.avatar}
+      />
+      <p>{userContext.userState.userName}</p>
       <button
         onClick={() => {
           setShowSetting(true);
@@ -18,8 +25,6 @@ export default function Me({ name, avatar, setUserName, setAvatar }) {
       </button>
       {showSetting && (
         <SettingPagePortal
-          setUserName={setUserName}
-          setAvatar={setAvatar}
           closePortal={() => {
             setShowSetting(false);
           }}

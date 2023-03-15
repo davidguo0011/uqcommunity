@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import styles from './Friend.module.scss';
-import avatar from '../../../assets/avatar.png';
 import useClickOutside from '../../../hooks/useClickOutside';
 import { MdClose } from 'react-icons/md';
 import OnlineStatusIcon from '../../OnlineStatusIcon/OnlineStatusIcon';
 import { toast } from 'react-toastify';
 import Notification from '../../Notification/Notification';
-export default function Friend({ name, onlineStatus, notification }) {
+export default function Friend({ name, avatar, onlineStatus, notification }) {
   const { visible, setVisible, myref } = useClickOutside(false);
   const [showDeleteBtn, setShowDeleteBtn] = useState(false);
   return (

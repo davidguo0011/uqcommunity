@@ -7,9 +7,6 @@ import { Link } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 
 export default function ChatList({ friendState }) {
-  const [userName, setUserName] = useState(localStorage.getItem('userName'));
-  const [avatar, setAvatar] = useState(localStorage.getItem('avatar'));
-
   const [searchInput, setSearchInput] = useState('');
   return (
     <div className={styles.chatListContainer}>
@@ -54,17 +51,13 @@ export default function ChatList({ friendState }) {
                   notification={friend.notification}
                   friendDispatch={friend.friendDispatch}
                   friendId={friend.id}
+                  avatar={friend.avatar}
                 />
               </Link>
             );
           })}
       </div>
-      <Me
-        name={userName}
-        avatar={avatar}
-        setUserName={setUserName}
-        setAvatar={setAvatar}
-      />
+      <Me />
     </div>
   );
 }

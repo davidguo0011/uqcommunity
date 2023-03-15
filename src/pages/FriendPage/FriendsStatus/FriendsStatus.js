@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './FriendsStatus.module.scss';
 import { AiOutlineSearch } from 'react-icons/ai';
 import FriendStatus from '../../../components/FriendStatus/FriendStatus';
 import { toast } from 'react-toastify';
+import { UserContext } from '../../../context/UserContext';
 
 export default function FriendsStatus({
   friendDispatch,
@@ -12,6 +13,7 @@ export default function FriendsStatus({
 }) {
   const [userIdInput, setUserIdInput] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const userContext = useContext(UserContext);
 
   let friendList = [];
   if (currentType === '在线') {
@@ -47,13 +49,13 @@ export default function FriendsStatus({
       toast.error('friend exist', { theme: 'colored' });
       return;
     }
-    const sendId = parseInt(localStorage.getItem('userId'));
+    const sendId = userContext.userState.userId;
     const randomSixDigits = Math.floor(100000 + Math.random() * 900000);
 
     const data = {
       type: 2,
       sendId,
-      sendName: localStorage.getItem('userName'),
+      sendName: userContext.userState.userName,
       receiverId,
       receiverName,
       message: 'addFriend',

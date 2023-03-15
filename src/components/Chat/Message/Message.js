@@ -1,8 +1,13 @@
 import React from 'react';
 import styles from './Message.module.scss';
-import avatar from '../../../assets/avatar.png';
 
-export default function Message({ chatName, message, reverse, dateTime }) {
+export default function Message({
+  chatName,
+  message,
+  avatar,
+  reverse,
+  dateTime,
+}) {
   return (
     <div
       className={[styles.chatContainer, reverse && styles.alignRight].join(' ')}

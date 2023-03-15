@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './FriendStatus.module.scss';
 import OnlineStatusIcon from '../OnlineStatusIcon/OnlineStatusIcon';
-import avatar from '../../assets/avatar.png';
 import { Link } from 'react-router-dom';
 import { FiCheck } from 'react-icons/fi';
 import { MdOutlineClose } from 'react-icons/md';
 import { BsChatSquareFill } from 'react-icons/bs';
 import { acceptFriendRequest } from '../../api/friends';
+import { UserContext } from '../../context/UserContext';
 
 export default function FriendStatus({ friendDispatch, friend }) {
+  const userContext = useContext(UserContext);
   const acceptFriendAction = (action) => {
     const data = {
-      sendId: localStorage.getItem('userId'),
-      sendName: localStorage.getItem('userName'),
+      sendId: userContext.userContext.userId,
+      sendName: userContext.userContext.userName,
       receiverId: friend.id,
       receiverName: friend.name,
       action,
@@ -29,7 +30,7 @@ export default function FriendStatus({ friendDispatch, friend }) {
   return (
     <div className={styles.friendContainer}>
       <div className={styles.imgContainer}>
-        <img src={avatar} alt='' className={styles.avatar} />
+        <img src={friend.avatar} alt='' className={styles.avatar} />
         <OnlineStatusIcon onlineStatus={friend.onlineStatus} />
       </div>
       <p>{friend.name}</p>

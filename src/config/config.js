@@ -1,4 +1,4 @@
 const config = {
-  apiAddress: 'http://430f2145.nat123.fun:54186',
+  apiAddress: 'http://120.27.16.126:9002',
 };
 export default config;

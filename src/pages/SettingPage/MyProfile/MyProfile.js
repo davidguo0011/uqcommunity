@@ -1,26 +1,29 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import styles from './MyProfile.module.scss';
 import PreviewProfile from '../PreviewProfile/PreviewProfile';
 import SaveProfileChanges from '../SaveProfileChanges/SaveProfileChanges';
 import { updateUserAvatar, updateUserInfo } from '../../../api/user';
 import { MdEdit } from 'react-icons/md';
 import { toast } from 'react-toastify';
-export default function MyProfile({ setAvatar }) {
+import { UserContext } from '../../../context/UserContext';
+
+export default function MyProfile() {
+  const userContext = useContext(UserContext);
   const data = {
-    userName: localStorage.getItem('userName'),
-    email: localStorage.getItem('email'),
-    userId: localStorage.getItem('userId'),
-    bannerColor: localStorage.getItem('bannerColor'),
-    avatar: localStorage.getItem('avatar'),
-    phone: localStorage.getItem('phone'),
-    selfIntro: localStorage.getItem('selfIntro'),
+    userName: userContext.userState.userName,
+    email: userContext.userState.email,
+    userId: userContext.userState.userId,
+    bannerColor: userContext.userState.bannerColor,
+    avatar: userContext.userState.avatar,
+    phone: userContext.userState.phone,
+    selfIntro: userContext.userState.selfIntro,
   };
-  let originalUserInfo = data;
+  const [originalUserInfo, setOriginalUserInfo] = useState(data);
   const [userInfo, setUserInfo] = useState(data);
   const [profileChange, setProfileChange] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saveChangesMount, setSaveChangesMount] = useState(false);
-  const [previewPic, setPreviewPic] = useState(localStorage.getItem('avatar'));
+  const [previewPic, setPreviewPic] = useState(userContext.userState.avatar);
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const inputFile = useRef(null);
@@ -65,8 +68,8 @@ export default function MyProfile({ setAvatar }) {
     }, 200);
   };
   const reset = () => {
-    setUserInfo(originalUserInfo);
-    setPreviewPic(localStorage.getItem('avatar'));
+    setUserInfo({ ...originalUserInfo });
+    setPreviewPic(userContext.userState.avatar);
     inputFile.current.value = '';
     hideChanges();
   };
@@ -90,8 +93,7 @@ export default function MyProfile({ setAvatar }) {
           theme: 'colored',
         });
         avatarChanged = false;
-        localStorage.setItem('avatar', res.data);
-        setAvatar(res.data);
+        userContext.userDispatch({ type: 'changeAvatar', avatar: res.data });
       } else {
         toast.error('Something went wrong!', { theme: 'colored' });
       }
@@ -112,13 +114,20 @@ export default function MyProfile({ setAvatar }) {
           theme: 'colored',
         });
         userInfoChanged = false;
-        localStorage.setItem('bannerColor', userInfo.bannerColor);
-        localStorage.setItem('selfIntro', userInfo.selfIntro);
+        userContext.userDispatch({
+          type: 'changeBannerColor',
+          bannerColor: userInfo.bannerColor,
+        });
+        userContext.userDispatch({
+          type: 'changeSelfIntro',
+          selfIntro: userInfo.selfIntro,
+        });
       } else {
         toast.error('Something went wrong!', { theme: 'colored' });
       }
     }
     if (!userInfoChanged && !avatarChanged) {
+      setOriginalUserInfo({ ...userInfo });
       setLoading(false);
       hideChanges();
     }

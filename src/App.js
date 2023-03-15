@@ -8,10 +8,11 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import ChatPage from './pages/ChatPage/ChatPage';
 import FriendPage from './pages/FriendPage/FriendPage';
 import ChatLayout from './components/ChatLayout/ChatLayout';
+import { UserProvider } from './context/UserContext';
 
 function App() {
   return (
-    <>
+    <UserProvider>
       <ToastContainer style={{ width: '400px' }} />
       <Router>
         <Routes>
@@ -25,7 +26,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </>
+    </UserProvider>
   );
 }
 

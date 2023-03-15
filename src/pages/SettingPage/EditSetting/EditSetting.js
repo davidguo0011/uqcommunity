@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './EditSetting.module.scss';
 import { IoMdClose } from 'react-icons/io';
@@ -6,38 +6,28 @@ import { updateUserInfo } from '../../../api/user';
 import BtnSpinner from '../../../components/Spinner/BtnSpinner/BtnSpinner';
 
 import { toast } from 'react-toastify';
+import { UserContext } from '../../../context/UserContext';
 
-function EditSetting({
-  setShowEditSetting,
-  header,
-  description,
-  label,
-  userInfo,
-  setUserInfo,
-  setUserName,
-}) {
+function EditSetting({ setShowEditSetting, header, description, label }) {
+  const userContext = useContext(UserContext);
   let content = null;
   let submitContent = null;
-  let userInfoKey = null;
   if (label === '用户名') {
-    content = `${userInfo.userName}`;
+    content = userContext.userState.userName;
     submitContent = 'name';
-    userInfoKey = 'userName';
   } else if (label === '电子邮箱') {
-    content = userInfo.email;
+    content = userContext.userState.email;
     submitContent = 'email';
-    userInfoKey = 'email';
   } else {
-    content = userInfo.phone;
+    content = userContext.userState.phone;
     submitContent = 'phone';
-    userInfoKey = 'phone';
   }
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
   const [inputContent, setInputContent] = useState(content);
   const onSubmit = () => {
     const data = {
-      id: userInfo.userId,
+      id: userContext.userState.userId,
       password,
       [submitContent]: inputContent,
     };
@@ -45,14 +35,25 @@ function EditSetting({
     updateUserInfo(data).then((res) => {
       setLoading(false);
       if (res.respCode === '051') {
-        setUserInfo({ ...userInfo, [userInfoKey]: inputContent });
+        if (submitContent === 'name') {
+          userContext.userDispatch({
+            type: 'changeUserName',
+            userName: inputContent,
+          });
+        } else if (submitContent === 'email') {
+          userContext.userDispatch({
+            type: 'changeEmail',
+            email: inputContent,
+          });
+        } else {
+          userContext.userDispatch({
+            type: 'changePhone',
+            phone: inputContent,
+          });
+        }
         toast.success(`Succefully changed ${submitContent}!`, {
           theme: 'colored',
         });
-        if (submitContent === 'userName') {
-          setUserName(inputContent);
-        }
-        localStorage.setItem(userInfoKey, inputContent);
         setShowEditSetting(false);
       } else {
         toast.error(`${res.respMsg}`, { them: 'colored' });
@@ -119,9 +120,6 @@ export default function EditSettingPortal({
   header,
   description,
   label,
-  userInfo,
-  setUserInfo,
-  setUserName,
 }) {
   return (
     <>
@@ -131,9 +129,6 @@ export default function EditSettingPortal({
           header={header}
           description={description}
           label={label}
-          userInfo={userInfo}
-          setUserInfo={setUserInfo}
-          setUserName={setUserName}
         />,
         document.getElementById('root')
       )}

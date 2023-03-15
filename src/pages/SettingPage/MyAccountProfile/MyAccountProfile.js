@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './MyAccountProfile.module.scss';
 import EditSettingPortal from '../EditSetting/EditSetting';
-import { useEffect } from 'react';
+import { UserContext } from '../../../context/UserContext';
 
-export default function MyAccountProfile({ setCurrent, setUserName }) {
+export default function MyAccountProfile({ setCurrent }) {
   const [showEditSetting, setShowEditSetting] = useState(false);
   const [currentEdit, setCurrentEdit] = useState({});
-  const [userInfo, setUserInfo] = useState({});
+  const userContext = useContext(UserContext);
   const data = [
     {
       header: '输入用户名',
@@ -25,17 +25,6 @@ export default function MyAccountProfile({ setCurrent, setUserName }) {
     },
   ];
 
-  useEffect(() => {
-    setUserInfo({
-      userName: localStorage.getItem('userName'),
-      email: localStorage.getItem('email'),
-      userId: localStorage.getItem('userId'),
-      bannerColor: localStorage.getItem('bannerColor'),
-      avatar: localStorage.getItem('avatar'),
-      phone: localStorage.getItem('phone'),
-    });
-  }, []);
-
   return (
     <div className={styles.myAccountProfileContainer}>
       {showEditSetting && (
@@ -44,21 +33,18 @@ export default function MyAccountProfile({ setCurrent, setUserName }) {
           header={currentEdit.header}
           description={currentEdit.description}
           label={currentEdit.label}
-          userInfo={userInfo}
-          setUserInfo={setUserInfo}
-          setUserName={setUserName}
         />
       )}
       <div
         className={styles.banner}
-        style={{ backgroundColor: userInfo.bannerColor }}
+        style={{ backgroundColor: userContext.userState.bannerColor }}
       ></div>
       <div className={styles.mainBody}>
         <section className={styles.info}>
-          <img src={userInfo.avatar} alt='' />
+          <img src={userContext.userState.avatar} alt='' />
           <p>
-            {userInfo.userName}
-            <span>#{userInfo.userId}</span>
+            {userContext.userState.userName}
+            <span>#{userContext.userState.userId}</span>
           </p>
           <button
             onClick={() => {
@@ -73,11 +59,11 @@ export default function MyAccountProfile({ setCurrent, setUserName }) {
             {data.map((item) => {
               let content = null;
               if (item.label === '用户名') {
-                content = `${userInfo.userName}#${userInfo.userId}`;
+                content = `${userContext.userState.userName}#${userContext.userState.userId}`;
               } else if (item.label === '电子邮箱') {
-                content = userInfo.email;
+                content = userContext.userState.email;
               } else {
-                content = userInfo.phone;
+                content = userContext.userState.phone;
               }
               return (
                 <div className={styles.editItem} key={item.label}>

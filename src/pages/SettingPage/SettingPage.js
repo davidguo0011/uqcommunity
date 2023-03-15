@@ -6,7 +6,7 @@ import MyProfile from './MyProfile/MyProfile';
 import { MdLogout } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
-function SettingPage({ closePortal, setUserName, setAvatar }) {
+function SettingPage({ closePortal }) {
   const types = [
     '我的账号',
     '个人资料',
@@ -19,15 +19,8 @@ function SettingPage({ closePortal, setUserName, setAvatar }) {
   const navigate = useNavigate();
   const logout = () => {
     setDidMount(false);
-    localStorage.removeItem('userName');
     localStorage.removeItem('access_token');
-    localStorage.removeItem('userId');
     localStorage.removeItem('chats');
-    localStorage.removeItem('bannerColor');
-    localStorage.removeItem('avatar');
-    localStorage.removeItem('phone');
-    localStorage.removeItem('email');
-    localStorage.removeItem('selfIntro');
     navigate('/login');
   };
 
@@ -44,7 +37,7 @@ function SettingPage({ closePortal, setUserName, setAvatar }) {
           {types.map((type) => {
             return (
               <li
-                className={current === { type } ? styles.active : ''}
+                className={current === type ? styles.active : ''}
                 onClick={() => {
                   setCurrent(type);
                 }}
@@ -62,10 +55,8 @@ function SettingPage({ closePortal, setUserName, setAvatar }) {
         </ul>
       </section>
       <section className={styles.main}>
-        {current === '我的账号' && (
-          <MyAccount setCurrent={setCurrent} setUserName={setUserName} />
-        )}
-        {current === '个人资料' && <MyProfile setAvatar={setAvatar} />}
+        {current === '我的账号' && <MyAccount setCurrent={setCurrent} />}
+        {current === '个人资料' && <MyProfile />}
         <button
           className={styles.exitBtn}
           onClick={() => {
@@ -80,19 +71,11 @@ function SettingPage({ closePortal, setUserName, setAvatar }) {
   );
 }
 
-export default function SettingPagePortal({
-  closePortal,
-  setUserName,
-  setAvatar,
-}) {
+export default function SettingPagePortal({ closePortal }) {
   return (
     <>
       {ReactDOM.createPortal(
-        <SettingPage
-          closePortal={closePortal}
-          setUserName={setUserName}
-          setAvatar={setAvatar}
-        />,
+        <SettingPage closePortal={closePortal} />,
         document.getElementById('root')
       )}
     </>

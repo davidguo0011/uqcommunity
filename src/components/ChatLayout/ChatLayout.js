@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from './ChatLayout.module.scss';
 import SideNavigation from '../../components/SideNavigation/SideNavigation';
 import ChatList from '../../components/ChatList/ChatList';
@@ -8,11 +8,11 @@ import useFriendReducer from '../../hooks/useFriendReducer';
 import { toast } from 'react-toastify';
 import LoadPageSpinner from '../Spinner/LoadPageSpinner/LoadPageSpinner';
 import useChatReducer from '../../hooks/useChatReducer';
+import { UserContext } from '../../context/UserContext';
 
 export default function FriendPage() {
   const [socket, setSocket] = useState();
-  const userId = parseInt(localStorage.getItem('userId'));
-  const userName = localStorage.getItem('userName');
+  const userContext = useContext(UserContext);
   const [chatState, chatDispatch] = useChatReducer();
   const [friendState, friendDispatch] = useFriendReducer();
   const { initialise, loaded } = friendState;
@@ -24,7 +24,12 @@ export default function FriendPage() {
       array.push(friend.id);
     });
     const message = array.join(':');
-    const data = { type: '1', sendId: userId, sendName: userName, message };
+    const data = {
+      type: '1',
+      sendId: userContext.userState.userId,
+      sendName: userContext.userState.userName,
+      message,
+    };
     const ws = initWebsocket(data);
     if (friendState.friends.length === 0) {
       friendDispatch({ type: 'loaded' });
@@ -88,7 +93,6 @@ export default function FriendPage() {
               friendState,
               socket,
               friendDispatch,
-              userId,
               chatDispatch,
               chatState,
             }}

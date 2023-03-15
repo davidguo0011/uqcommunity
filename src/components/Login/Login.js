@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styles from './Login.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../api/login';
 import LoginSpinner from '../Spinner/LoginSpinner/LoginSpinner';
+import { UserContext } from '../../context/UserContext';
 export default function Login() {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const userContext = useContext(UserContext);
   const onLogin = () => {
     if (password && emailOrPhone) {
       const data = {
@@ -17,15 +19,20 @@ export default function Login() {
       setShowSpinner(true);
       login(data).then((res) => {
         if (res.respCode === '051') {
-          localStorage.setItem('userName', res.data.name);
+          userContext.userDispatch({
+            type: 'init',
+            init: {
+              userName: res.data.name,
+              userId: res.data.id,
+              bannerColor: res.data.bannerColor,
+              avatar: res.data.avatar,
+              phone: res.data.phone,
+              email: res.data.email,
+              selfIntro: res.data.selfIntro,
+            },
+          });
           localStorage.setItem('access_token', res.data.token);
-          localStorage.setItem('userId', res.data.id);
           localStorage.setItem('chats', '{}');
-          localStorage.setItem('bannerColor', res.data.bannerColor);
-          localStorage.setItem('avatar', res.data.avatar);
-          localStorage.setItem('phone', res.data.phone);
-          localStorage.setItem('email', res.data.email);
-          localStorage.setItem('selfIntro', res.data.selfIntro);
 
           navigate('/friends');
         }

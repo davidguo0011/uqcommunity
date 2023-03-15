@@ -1,6 +1,7 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useContext } from 'react';
 import { getFriends } from '../api/friends';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 export default function useFriendReducer() {
   const initialValue = {
     friends: [],
@@ -8,7 +9,7 @@ export default function useFriendReducer() {
     loaded: false,
     addFriendNotification: 0,
   };
-
+  const userContext = useContext(UserContext);
   const reducerFunction = (state, action) => {
     const prevState = JSON.parse(JSON.stringify(state));
     switch (action.type) {
@@ -98,7 +99,7 @@ export default function useFriendReducer() {
   };
 
   const [state, dispatch] = useReducer(reducerFunction, initialValue);
-  const userId = localStorage.getItem('userId');
+  const userId = userContext.userState.userId;
   const navigate = useNavigate();
   useEffect(() => {
     const data = { id: userId };
@@ -109,6 +110,7 @@ export default function useFriendReducer() {
             type: 'initialiseFriends',
             friends: JSON.parse(JSON.stringify(res.data.friends)),
           });
+          console.log(res);
         })
         .catch(() => {
           navigate('/login');

@@ -3,12 +3,12 @@ import styles from './MyAccount.module.scss';
 import MyAccountProfile from '../MyAccountProfile/MyAccountProfile';
 import svg from '../../../assets/settingSVG.svg';
 
-export default function MyAccount({ setCurrent, setUserName }) {
+export default function MyAccount({ setCurrent }) {
   return (
     <div className={styles.myAccountContainer}>
       <section className={styles.myAccount}>
         <h3>我的账号</h3>
-        <MyAccountProfile setCurrent={setCurrent} setUserName={setUserName} />
+        <MyAccountProfile setCurrent={setCurrent} />
       </section>
       <section className={styles.myPassword}>
         <h3>密码</h3>
