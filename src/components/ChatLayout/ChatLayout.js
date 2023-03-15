@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import LoadPageSpinner from '../Spinner/LoadPageSpinner/LoadPageSpinner';
 import useChatReducer from '../../hooks/useChatReducer';
 import { UserContext } from '../../context/UserContext';
+import { useTabNotificationHook } from '../../hooks/useTabNotificationHook';
 
 export default function FriendPage() {
   const [socket, setSocket] = useState();
@@ -16,6 +17,7 @@ export default function FriendPage() {
   const [chatState, chatDispatch] = useChatReducer();
   const [friendState, friendDispatch] = useFriendReducer();
   const { initialise, loaded } = friendState;
+  const [showNotification, clearNotification] = useTabNotificationHook();
 
   if (initialise && !loaded) {
     //init
@@ -62,6 +64,7 @@ export default function FriendPage() {
         } else if (message.wsType === 'chatMessage') {
           if (chatState.chatUserId !== message.data.sendId) {
             friendDispatch({ type: 'messageNotification', message });
+            showNotification();
           } else {
             chatDispatch({
               type: 'addMessage',
@@ -72,7 +75,30 @@ export default function FriendPage() {
         }
       };
     }
-  }, [chatDispatch, chatState, friendDispatch, loaded, socket]);
+  }, [
+    chatDispatch,
+    chatState,
+    friendDispatch,
+    loaded,
+    showNotification,
+    socket,
+  ]);
+
+  useEffect(() => {
+    let notify = false;
+    friendState.friends.forEach((friend) => {
+      if (friend.notification > 0) {
+        notify = true;
+      }
+    });
+    if (!notify) {
+      clearNotification();
+    }
+  }, [
+    clearNotification,
+    friendState.addFriendNotification,
+    friendState.friends,
+  ]);
 
   if (!initialise || !loaded) {
     return <LoadPageSpinner />;

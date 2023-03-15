@@ -93,6 +93,7 @@ export default function MyProfile() {
           theme: 'colored',
         });
         avatarChanged = false;
+        console.log(res.data);
         userContext.userDispatch({ type: 'changeAvatar', avatar: res.data });
       } else {
         toast.error('Something went wrong!', { theme: 'colored' });
