@@ -21,7 +21,7 @@ export default function ChatPage() {
   })[0];
 
   useEffect(() => {
-    chatDispatch({ type: 'clearMessages' });
+    setLoaded(true);
     const data = {
       sendId: userContext.userState.userId,
       receiverId: chatId,

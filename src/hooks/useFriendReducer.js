@@ -110,7 +110,6 @@ export default function useFriendReducer() {
             type: 'initialiseFriends',
             friends: JSON.parse(JSON.stringify(res.data.friends)),
           });
-          console.log(res);
         })
         .catch(() => {
           navigate('/login');

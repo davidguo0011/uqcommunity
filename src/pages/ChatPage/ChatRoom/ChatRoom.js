@@ -70,7 +70,7 @@ export default function ChatRoom({
                 message={message.message}
                 reverse={message.sendId === userContext.userState.userId}
                 dateTime={convertDate(message.sendTime)}
-                key={message.sendTime}
+                key={message.messageId}
               />
             );
           })}
