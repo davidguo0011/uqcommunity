@@ -15,7 +15,10 @@ export default function Me() {
         alt='avatar'
         className={styles.avatar}
       />
-      <p>{userContext.userState.userName}</p>
+      <p>
+        {userContext.userState.userName}
+        <span>#{userContext.userState.userId}</span>
+      </p>
       <button
         onClick={() => {
           setShowSetting(true);
