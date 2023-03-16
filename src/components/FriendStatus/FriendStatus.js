@@ -12,8 +12,8 @@ export default function FriendStatus({ friendDispatch, friend }) {
   const userContext = useContext(UserContext);
   const acceptFriendAction = (action) => {
     const data = {
-      sendId: userContext.userContext.userId,
-      sendName: userContext.userContext.userName,
+      sendId: userContext.userState.userId,
+      sendName: userContext.userState.userName,
       receiverId: friend.id,
       receiverName: friend.name,
       action,

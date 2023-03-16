@@ -17,8 +17,28 @@ $green: rgb(68, 123, 75);
   .chatHeader {
     color: $textwhite;
     display: flex;
-    .chatName {
-      margin-left: 10px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    .header {
+      display: flex;
+      align-items: center;
+      span {
+        color: $textgray;
+        margin-right: 10px;
+      }
+    }
+    .btnContainer {
+      button {
+        background-color: transparent;
+        color: $textgray;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        color: $textwhite;
+      }
     }
   }
 }

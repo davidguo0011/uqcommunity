@@ -6,13 +6,13 @@ $textgray: rgb(188, 188, 189);
 $textwhite: rgb(255, 255, 255);
 
 .chatRoomContainer {
-  width: 70%;
   height: calc(100vh - 50px);
   background-color: $backgroundColor;
   position: relative;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   .chatHeader {
     padding: 20px;

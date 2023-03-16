@@ -40,8 +40,8 @@ export default function FriendPage() {
       ws.onmessage = function (event) {
         var message = JSON.parse(event.data);
         if (message.wsType === 'FriendStatus') {
-          friendDispatch({ type: 'loaded' });
           friendDispatch({ type: 'onlineStatus', message });
+          friendDispatch({ type: 'loaded' });
           setSocket(ws);
         }
       };
@@ -93,11 +93,7 @@ export default function FriendPage() {
     if (!notify) {
       clearNotification();
     }
-  }, [
-    clearNotification,
-    friendState.addFriendNotification,
-    friendState.friends,
-  ]);
+  }, [clearNotification, friendState.friends]);
 
   if (!initialise || !loaded) {
     return <LoadPageSpinner />;
