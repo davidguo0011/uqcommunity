@@ -48,7 +48,7 @@ export default function FriendPage() {
     const ws = initWebsocket(data);
     if (friendState.friends.length === 0) {
       ws.onmessage = function (event) {
-        var message = JSON.parse(event.data);
+        var message = event.data;
         console.log(message);
         setSocket(ws);
         friendDispatch({ type: 'loaded' });
