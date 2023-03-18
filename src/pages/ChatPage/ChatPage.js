@@ -56,12 +56,20 @@ export default function ChatPage() {
         chatUserId: chatId,
       });
       setLoaded(true);
+      socket.send(
+        JSON.stringify({
+          receiverId: chatId,
+          sendId: userContext.userState.userId,
+          type: 6,
+        })
+      );
     }
   }, [
     chatDispatch,
     chatFriend.notification,
     chatId,
     friendDispatch,
+    socket,
     userContext.userState.userId,
   ]);
 

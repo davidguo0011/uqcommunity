@@ -14,6 +14,7 @@ export default function FriendPage() {
 
   useEffect(() => {
     chatDispatch({ type: 'clearMessages' });
+    console.log('disconnect');
     socket.send(
       JSON.stringify({
         receiverId: 0,

@@ -6,7 +6,7 @@ import MyProfile from './MyProfile/MyProfile';
 import { MdLogout } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 
-function SettingPage({ closePortal }) {
+function SettingPage({ closePortal, socket }) {
   const types = [
     '我的账号',
     '个人资料',
@@ -21,6 +21,7 @@ function SettingPage({ closePortal }) {
     setDidMount(false);
     localStorage.removeItem('access_token');
     localStorage.removeItem('chats');
+    socket.close();
     navigate('/login');
   };
 
@@ -71,11 +72,11 @@ function SettingPage({ closePortal }) {
   );
 }
 
-export default function SettingPagePortal({ closePortal }) {
+export default function SettingPagePortal({ closePortal, socket }) {
   return (
     <>
       {ReactDOM.createPortal(
-        <SettingPage closePortal={closePortal} />,
+        <SettingPage closePortal={closePortal} socket={socket} />,
         document.getElementById('root')
       )}
     </>

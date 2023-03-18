@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../api/login';
 import LoginSpinner from '../Spinner/LoginSpinner/LoginSpinner';
 import { UserContext } from '../../context/UserContext';
+import { toast } from 'react-toastify';
 export default function Login() {
   const [emailOrPhone, setEmailOrPhone] = useState('');
   const [showSpinner, setShowSpinner] = useState(false);
@@ -33,8 +34,10 @@ export default function Login() {
           });
           localStorage.setItem('access_token', res.data.token);
           localStorage.setItem('chats', '{}');
-
           navigate('/friends');
+        } else {
+          toast.error('Incorrect, please try again', { theme: 'colored' });
+          setShowSpinner(false);
         }
       });
     }

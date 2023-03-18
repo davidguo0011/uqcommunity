@@ -6,7 +6,7 @@ import Me from '../Chat/Me/Me';
 import { Link } from 'react-router-dom';
 import Notification from '../Notification/Notification';
 
-export default function ChatList({ friendState }) {
+export default function ChatList({ friendState, socket }) {
   const [searchInput, setSearchInput] = useState('');
   return (
     <div className={styles.chatListContainer}>
@@ -42,6 +42,7 @@ export default function ChatList({ friendState }) {
               friend.name.includes(searchInput)
             );
           })
+          .sort((a, b) => (a.onlineStatus === 'online' ? -1 : 1))
           .map((friend) => {
             return (
               <Link to={`/chat/${friend.id}`} key={friend.id}>
@@ -57,7 +58,7 @@ export default function ChatList({ friendState }) {
             );
           })}
       </div>
-      <Me />
+      <Me socket={socket} />
     </div>
   );
 }

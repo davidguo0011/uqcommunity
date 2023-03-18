@@ -4,7 +4,7 @@ import { AiFillSetting } from 'react-icons/ai';
 import SettingPagePortal from '../../../pages/SettingPage/SettingPage';
 import { UserContext } from '../../../context/UserContext';
 
-export default function Me() {
+export default function Me({ socket }) {
   const [showSetting, setShowSetting] = useState(false);
   const userContext = useContext(UserContext);
 
@@ -28,6 +28,7 @@ export default function Me() {
       </button>
       {showSetting && (
         <SettingPagePortal
+          socket={socket}
           closePortal={() => {
             setShowSetting(false);
           }}

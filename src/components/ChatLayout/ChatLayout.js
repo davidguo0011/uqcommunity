@@ -10,6 +10,7 @@ import LoadPageSpinner from '../Spinner/LoadPageSpinner/LoadPageSpinner';
 import useChatReducer from '../../hooks/useChatReducer';
 import { UserContext } from '../../context/UserContext';
 import { useTabNotificationHook } from '../../hooks/useTabNotificationHook';
+import { useNavigate } from 'react-router-dom';
 
 export default function FriendPage() {
   const [socket, setSocket] = useState();
@@ -18,6 +19,18 @@ export default function FriendPage() {
   const [friendState, friendDispatch] = useFriendReducer();
   const { initialise, loaded } = friendState;
   const [showNotification, clearNotification] = useTabNotificationHook();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem('access_token')) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  window.onbeforeunload = function () {
+    localStorage.removeItem('access_token');
+    socket.close();
+  };
 
   if (initialise && !loaded) {
     //init
@@ -34,8 +47,12 @@ export default function FriendPage() {
     };
     const ws = initWebsocket(data);
     if (friendState.friends.length === 0) {
-      friendDispatch({ type: 'loaded' });
-      setSocket(ws);
+      ws.onmessage = function (event) {
+        var message = JSON.parse(event.data);
+        console.log(message);
+        setSocket(ws);
+        friendDispatch({ type: 'loaded' });
+      };
     } else {
       ws.onmessage = function (event) {
         var message = JSON.parse(event.data);
@@ -103,11 +120,7 @@ export default function FriendPage() {
     <div className={styles.friendPageContainer}>
       <SideNavigation />
       <>
-        <ChatList
-          friendState={friendState}
-          socket={socket}
-          friendDispatch={friendDispatch}
-        />
+        <ChatList friendState={friendState} socket={socket} />
         <div className={styles.rightSection}>
           <Outlet
             context={{

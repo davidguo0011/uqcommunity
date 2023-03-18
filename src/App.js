@@ -8,6 +8,7 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import ChatPage from './pages/ChatPage/ChatPage';
 import FriendPage from './pages/FriendPage/FriendPage';
 import ChatLayout from './components/ChatLayout/ChatLayout';
+import VideoChatPage from './pages/VideoChatPage/VideoChatPage';
 import { UserProvider } from './context/UserContext';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='/chat/:chatId' element={<ChatPage />} />
             <Route path='/friends' element={<FriendPage />} />
           </Route>
+          <Route path='/video/:chatId' element={<VideoChatPage />} />
         </Routes>
       </Router>
     </UserProvider>
