@@ -52,9 +52,11 @@ export default function VideoChatPage({ socket }) {
       userVideo.current.srcObject = stream;
     });
 
-    if (videoContext.videoState.callAccepted) {
-      peer.signal(videoContext.videoState.data);
-    }
+    videoContext.videoDispatch({ type: 'setPeerOnCall', peer: peer });
+
+    // if (videoContext.videoState.callAccepted) {
+    //   peer.signal(videoContext.videoState.data);
+    // }
 
     connectionRef.current = peer;
   };

@@ -8,6 +8,7 @@ export const VideoProvider = (props) => {
     callerName: '',
     callerId: 0,
     callAccepted: false,
+    peer: {},
   };
   //reducer function
   const userReducer = (state, action) => {
@@ -33,6 +34,11 @@ export const VideoProvider = (props) => {
         };
       case 'clear':
         return initialState;
+      case 'setPeerOnCall':
+        return {
+          ...state,
+          peer: action.peer,
+        };
       default:
         return state;
     }
