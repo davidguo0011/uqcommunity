@@ -11,10 +11,12 @@ import useChatReducer from '../../hooks/useChatReducer';
 import { UserContext } from '../../context/UserContext';
 import { useTabNotificationHook } from '../../hooks/useTabNotificationHook';
 import { useNavigate } from 'react-router-dom';
+import { VideoContext } from '../../context/VideoContext';
 
 export default function FriendPage() {
   const [socket, setSocket] = useState();
   const userContext = useContext(UserContext);
+  const videoContext = useContext(VideoContext);
   const [chatState, chatDispatch] = useChatReducer();
   const [friendState, friendDispatch] = useFriendReducer();
   const { initialise, loaded } = friendState;
@@ -88,6 +90,11 @@ export default function FriendPage() {
               chatId: chatState.chatUserId,
             });
           }
+        } else if (message.wsType === 'callUser') {
+          //收到来电
+          videoContext.videoDispatch({ type: 'callUser', message });
+        } else if (message.wsType === 'callAccepted') {
+          videoContext.videoDispatch({ type: 'callAccepted', message });
         }
       };
     }
@@ -98,6 +105,7 @@ export default function FriendPage() {
     loaded,
     showNotification,
     socket,
+    videoContext,
   ]);
 
   useEffect(() => {

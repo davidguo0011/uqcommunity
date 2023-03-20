@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import LoadChatRoomSpinner from '../../components/Spinner/LoadChatRoomSpinner/LoadChatRoomSpinner';
 import { getMessages } from '../../api/message';
 import { UserContext } from '../../context/UserContext';
+import VideoChatPage from '../VideoChatPage/VideoChatPage';
 
 export default function ChatPage() {
   const { friendState, socket, chatDispatch, chatState, friendDispatch } =
@@ -15,6 +16,7 @@ export default function ChatPage() {
   const chatId = parseInt(useParams().chatId);
   const [loaded, setLoaded] = useState(false);
   const userContext = useContext(UserContext);
+  const [showVideo, setShowVideo] = useState(false);
 
   const chatFriend = friendState.friends.filter((friend) => {
     return friend.id === parseInt(chatId);
@@ -93,8 +95,9 @@ export default function ChatPage() {
 
   return (
     <>
-      <TopNav chatFriend={chatFriend} />
+      <TopNav chatFriend={chatFriend} setShowVideo={setShowVideo} />
       <div className={styles.friendContainer}>
+        {showVideo && <VideoChatPage socket={socket} />}
         {!loaded && <LoadChatRoomSpinner />}
         {loaded && (
           <ChatRoom

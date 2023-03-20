@@ -4,8 +4,7 @@ import { BsFillChatDotsFill } from 'react-icons/bs';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
-export default function TopNav({ chatFriend }) {
-  const navigate = useNavigate();
+export default function TopNav({ chatFriend, setShowVideo }) {
   return (
     <div className={styles.topNavContainer}>
       <div className={styles.chatHeader}>
@@ -18,7 +17,7 @@ export default function TopNav({ chatFriend }) {
         <div className={styles.btnContainer}>
           <button
             onClick={() => {
-              navigate(`/video/${chatFriend.id}`);
+              setShowVideo(true);
             }}
           >
             <BsFillTelephoneFill />

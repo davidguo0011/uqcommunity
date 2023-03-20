@@ -8,26 +8,27 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import ChatPage from './pages/ChatPage/ChatPage';
 import FriendPage from './pages/FriendPage/FriendPage';
 import ChatLayout from './components/ChatLayout/ChatLayout';
-import VideoChatPage from './pages/VideoChatPage/VideoChatPage';
 import { UserProvider } from './context/UserContext';
+import { VideoProvider } from './context/VideoContext';
 
 function App() {
   return (
     <UserProvider>
-      <ToastContainer style={{ width: '400px' }} />
-      <Router>
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/signup' element={<SignupPage />} />
-          <Route path='/about' element={<AboutPage />} />
-          <Route path='/' element={<ChatLayout />}>
-            <Route path='/chat/:chatId' element={<ChatPage />} />
-            <Route path='/friends' element={<FriendPage />} />
-          </Route>
-          <Route path='/video/:chatId' element={<VideoChatPage />} />
-        </Routes>
-      </Router>
+      <VideoProvider>
+        <ToastContainer style={{ width: '400px' }} />
+        <Router>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<SignupPage />} />
+            <Route path='/about' element={<AboutPage />} />
+            <Route path='/' element={<ChatLayout />}>
+              <Route path='/chat/:chatId' element={<ChatPage />} />
+              <Route path='/friends' element={<FriendPage />} />
+            </Route>
+          </Routes>
+        </Router>
+      </VideoProvider>
     </UserProvider>
   );
 }
