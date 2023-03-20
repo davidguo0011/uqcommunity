@@ -96,51 +96,33 @@ export default function VideoChatPage({ socket }) {
       <h1 style={{ textAlign: 'center', color: '#fff' }}>Zoomish</h1>
       <div className='container'>
         <div className='video-container'>
-          <div className='video'>
-            {stream && (
-              <video
-                playsInline
-                muted
-                ref={myVideo}
-                autoPlay
-                style={{ width: '300px' }}
-              />
-            )}
-          </div>
-          <div className='video'>
-            {videoContext.videoState.callAccepted && !callEnded ? (
-              <video
-                playsInline
-                ref={userVideo}
-                autoPlay
-                style={{ width: '300px' }}
-              />
-            ) : null}
-          </div>
-        </div>
-        <div className='myId'>
-          <input
-            value={idToCall}
-            onChange={(e) => setIdToCall(e.target.value)}
-          />
-          <div className='call-button'>
-            {videoContext.videoState.callAccepted && !callEnded ? (
-              <button onClick={leaveCall}>End Call</button>
-            ) : (
-              <button onClick={() => callUser(idToCall)}>Call</button>
-            )}
-            {idToCall}
-          </div>
-        </div>
-        <div>
-          {videoContext.videoState.receivingCall &&
-          !videoContext.videoState.callAccepted ? (
-            <div className='caller'>
-              <h1>{videoContext.videoState.callerName} is calling...</h1>
-              <button onClick={answerCall}>Answer</button>
-            </div>
+          {stream && (
+            <video ref={myVideo} autoPlay className={styles.videoPlayer} />
+          )}
+          {videoContext.videoState.callAccepted && !callEnded ? (
+            <video ref={userVideo} autoPlay className={styles.videoPlayer} />
           ) : null}
         </div>
+      </div>
+      <div className='myId'>
+        <input value={idToCall} onChange={(e) => setIdToCall(e.target.value)} />
+        <div className='call-button'>
+          {videoContext.videoState.callAccepted && !callEnded ? (
+            <button onClick={leaveCall}>End Call</button>
+          ) : (
+            <button onClick={() => callUser(idToCall)}>Call</button>
+          )}
+          {idToCall}
+        </div>
+      </div>
+      <div>
+        {videoContext.videoState.receivingCall &&
+        !videoContext.videoState.callAccepted ? (
+          <div className='caller'>
+            <h1>{videoContext.videoState.callerName} is calling...</h1>
+            <button onClick={answerCall}>Answer</button>
+          </div>
+        ) : null}
       </div>
     </>
   );

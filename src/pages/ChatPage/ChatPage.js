@@ -93,11 +93,14 @@ export default function ChatPage() {
     chatDispatch({ type: 'addMessage', message: data, chatId: chatFriend.id });
   };
 
+  if (showVideo) {
+    return <VideoChatPage socket={socket} />;
+  }
+
   return (
     <>
       <TopNav chatFriend={chatFriend} setShowVideo={setShowVideo} />
       <div className={styles.friendContainer}>
-        {showVideo && <VideoChatPage socket={socket} />}
         {!loaded && <LoadChatRoomSpinner />}
         {loaded && (
           <ChatRoom
