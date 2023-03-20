@@ -25,7 +25,7 @@ export default function VideoChatPage({ socket }) {
       .then((stream) => {
         setStream(stream);
       });
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     if (stream) {
