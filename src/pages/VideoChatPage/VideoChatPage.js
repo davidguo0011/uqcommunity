@@ -128,20 +128,10 @@ export default function VideoChatPage({ socket }) {
       <div className='container'>
         <div className='video-container'>
           {stream && (
-            <video
-              ref={myVideo}
-              autoPlay
-              muted
-              className={styles.videoPlayer}
-            />
+            <video ref={myVideo} autoPlay className={styles.videoPlayer} />
           )}
           {videoContext.videoState.callAccepted && !callEnded ? (
-            <video
-              ref={userVideo}
-              autoPlay
-              muted
-              className={styles.videoPlayer}
-            />
+            <video ref={userVideo} autoPlay className={styles.videoPlayer} />
           ) : null}
         </div>
       </div>
