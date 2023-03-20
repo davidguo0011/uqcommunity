@@ -19,12 +19,15 @@ export default function VideoChatPage({ socket }) {
   const userVideo = useRef();
   const connectionRef = useRef();
 
+  const constraints = {
+    audio: { echoCancellation: true, noiseSuppression: true },
+    video: true,
+  };
+
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        setStream(stream);
-      });
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      setStream(stream);
+    });
   }, []);
 
   useEffect(() => {
