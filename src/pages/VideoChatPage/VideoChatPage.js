@@ -55,6 +55,7 @@ export default function VideoChatPage({ socket }) {
     });
 
     peer.on('stream', (stream) => {
+      console.log('done');
       userVideo.current.srcObject = stream;
     });
 
@@ -89,6 +90,7 @@ export default function VideoChatPage({ socket }) {
       console.log('type 8');
     });
     peer.on('stream', (stream) => {
+      console.log('done');
       userVideo.current.srcObject = stream;
     });
     console.log('data exist:', videoContext.videoState.data);
