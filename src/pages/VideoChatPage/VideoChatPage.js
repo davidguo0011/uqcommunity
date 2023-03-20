@@ -36,7 +36,7 @@ export default function VideoChatPage({ socket }) {
   const callUser = (id) => {
     const peer = new Peer({
       initiator: true,
-      trickle: true,
+      trickle: false,
       stream: stream,
     });
     //when initiator is true, on signal fires right away
@@ -71,7 +71,7 @@ export default function VideoChatPage({ socket }) {
     videoContext.videoDispatch({ type: 'justAcceptCall' });
     const peer = new Peer({
       initiator: false,
-      trickle: true,
+      trickle: false,
       stream: stream,
     });
     peer.on('signal', (data) => {
