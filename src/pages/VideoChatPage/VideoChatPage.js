@@ -51,6 +51,7 @@ export default function VideoChatPage({ socket }) {
           sendName: userContext.userState.userName,
         })
       );
+      console.log('type 7');
     });
 
     peer.on('stream', (stream) => {
@@ -85,6 +86,7 @@ export default function VideoChatPage({ socket }) {
           sendName: userContext.userState.userName,
         })
       );
+      console.log('type 8');
     });
     peer.on('stream', (stream) => {
       userVideo.current.srcObject = stream;

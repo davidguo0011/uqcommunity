@@ -110,7 +110,6 @@ export default function FriendPage() {
             });
           }
         } else if (message.wsType === 'callUser') {
-          //收到来电
           videoContext.videoDispatch({ type: 'callUser', message });
         } else if (message.wsType === 'callAccepted') {
           videoContext.videoDispatch({ type: 'callAccepted', message });
@@ -147,20 +146,18 @@ export default function FriendPage() {
   return (
     <div className={styles.friendPageContainer}>
       <SideNavigation />
-      <>
-        <ChatList friendState={friendState} socket={socket} />
-        <div className={styles.rightSection}>
-          <Outlet
-            context={{
-              friendState,
-              socket,
-              friendDispatch,
-              chatDispatch,
-              chatState,
-            }}
-          />
-        </div>
-      </>
+      <ChatList friendState={friendState} socket={socket} />
+      <div className={styles.rightSection}>
+        <Outlet
+          context={{
+            friendState,
+            socket,
+            friendDispatch,
+            chatDispatch,
+            chatState,
+          }}
+        />
+      </div>
     </div>
   );
 }
