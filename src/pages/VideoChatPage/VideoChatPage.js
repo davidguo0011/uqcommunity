@@ -91,7 +91,7 @@ export default function VideoChatPage({ socket }) {
     peer.on('stream', (stream) => {
       userVideo.current.srcObject = stream;
     });
-    console.log('data exist!');
+    console.log('data exist:', videoContext.videoState.data);
     peer.signal(videoContext.videoState.data);
     connectionRef.current = peer;
   };
