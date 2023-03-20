@@ -25,7 +25,7 @@ export default function FriendPage() {
 
   useEffect(() => {
     if (socket) {
-      setInterval(() => {
+      const interval = setInterval(() => {
         socket.send(
           JSON.stringify({
             type: 9,
@@ -35,6 +35,9 @@ export default function FriendPage() {
           })
         );
       }, 50000);
+      return () => {
+        clearInterval(interval);
+      };
     }
   }, [socket, userContext.userState.userId]);
 
