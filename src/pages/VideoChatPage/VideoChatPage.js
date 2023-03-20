@@ -36,6 +36,13 @@ export default function VideoChatPage({ socket }) {
   const callUser = (id) => {
     const peer = new Peer({
       initiator: true,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+        ],
+      },
+
       trickle: false,
       stream: stream,
     });
@@ -72,6 +79,12 @@ export default function VideoChatPage({ socket }) {
     videoContext.videoDispatch({ type: 'justAcceptCall' });
     const peer = new Peer({
       initiator: false,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478?transport=udp' },
+        ],
+      },
       trickle: false,
       stream: stream,
     });
