@@ -38,16 +38,10 @@ export default function VideoChatPage({ socket }) {
       initiator: true,
       config: {
         iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' },
-          { urls: 'stun:stun2.l.google.com:19302' },
-          { urls: 'stun:stun3.l.google.com:19302' },
-          { urls: 'stun:stun4.l.google.com:19302' },
-
           {
-            url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-            credential: 'webrtc',
-            username: 'webrtc',
+            url: 'turn:relay1.expressturn.com:3478',
+            credential: 'OhaY7BP1DtFdzX6Y',
+            username: 'ef02EQFNM7MSG73H53',
           },
         ],
       },
@@ -90,16 +84,10 @@ export default function VideoChatPage({ socket }) {
       initiator: false,
       config: {
         iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' },
-          { urls: 'stun:stun2.l.google.com:19302' },
-          { urls: 'stun:stun3.l.google.com:19302' },
-          { urls: 'stun:stun4.l.google.com:19302' },
-
           {
-            url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-            credential: 'webrtc',
-            username: 'webrtc',
+            url: 'turn:relay1.expressturn.com:3478',
+            credential: 'OhaY7BP1DtFdzX6Y',
+            username: 'ef02EQFNM7MSG73H53',
           },
         ],
       },
