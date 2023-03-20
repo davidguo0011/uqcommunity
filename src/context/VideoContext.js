@@ -17,14 +17,14 @@ export const VideoProvider = (props) => {
         return {
           ...state,
           receivingCall: true,
-          callerId: action.message.sendId,
-          callerName: action.message.sendName,
-          data: action.message.message,
+          callerId: action.message.data.sendId,
+          callerName: action.message.data.sendName,
+          data: action.message.data.message,
         };
       case 'callAccepted':
         return {
           ...state,
-          data: action.message.message,
+          data: action.message.data.message,
           callAccepted: true,
         };
       case 'justAcceptCall':
