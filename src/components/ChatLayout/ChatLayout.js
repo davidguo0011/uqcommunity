@@ -113,7 +113,7 @@ export default function FriendPage() {
           videoContext.videoDispatch({ type: 'callUser', message });
         } else if (message.wsType === 'callAccepted') {
           videoContext.videoDispatch({ type: 'callAccepted', message });
-          videoContext.videoState.peer.signal(message.message);
+          videoContext.videoState.peer.signal(message.data.message);
         }
       };
     }
