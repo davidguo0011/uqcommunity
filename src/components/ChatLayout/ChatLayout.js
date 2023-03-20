@@ -24,6 +24,21 @@ export default function FriendPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (socket) {
+      setInterval(() => {
+        socket.send(
+          JSON.stringify({
+            type: 9,
+            sendId: userContext.userState.userId,
+            message: 'ping',
+            sendTime: Date.now(),
+          })
+        );
+      }, 50000);
+    }
+  }, [socket, userContext.userState.userId]);
+
+  useEffect(() => {
     if (!localStorage.getItem('access_token')) {
       navigate('/login');
     }

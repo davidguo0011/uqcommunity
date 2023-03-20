@@ -12,6 +12,7 @@ export default function VideoChatPage({ socket }) {
 
   const [stream, setStream] = useState();
 
+  const [idToCall, setIdToCall] = useState('');
   const [callEnded, setCallEnded] = useState(false);
 
   const myVideo = useRef();
@@ -43,8 +44,8 @@ export default function VideoChatPage({ socket }) {
       socket.send(
         JSON.stringify({
           type: 7,
-          sendId: useContext.userState.userId,
-          receiverId: chatId,
+          sendId: userContext.userState.userId,
+          receiverId: id,
           message: data,
           sendTime: Date.now(),
           sendName: userContext.userState.userName,
@@ -103,20 +104,32 @@ export default function VideoChatPage({ socket }) {
       <div className='container'>
         <div className='video-container'>
           {stream && (
-            <video ref={myVideo} autoPlay className={styles.videoPlayer} />
+            <video
+              ref={myVideo}
+              autoPlay
+              muted
+              className={styles.videoPlayer}
+            />
           )}
           {videoContext.videoState.callAccepted && !callEnded ? (
-            <video ref={userVideo} autoPlay className={styles.videoPlayer} />
+            <video
+              ref={userVideo}
+              autoPlay
+              muted
+              className={styles.videoPlayer}
+            />
           ) : null}
         </div>
       </div>
       <div className='myId'>
+        <input value={idToCall} onChange={(e) => setIdToCall(e.target.value)} />
         <div className='call-button'>
           {videoContext.videoState.callAccepted && !callEnded ? (
             <button onClick={leaveCall}>End Call</button>
           ) : (
-            <button onClick={() => callUser(chatId)}>Call</button>
+            <button onClick={() => callUser(idToCall)}>Call</button>
           )}
+          {idToCall}
         </div>
       </div>
       <div>
