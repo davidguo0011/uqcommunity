@@ -12,7 +12,6 @@ export default function VideoChatPage({ socket }) {
 
   const [stream, setStream] = useState();
 
-  const [idToCall, setIdToCall] = useState('');
   const [callEnded, setCallEnded] = useState(false);
 
   const myVideo = useRef();
@@ -24,9 +23,14 @@ export default function VideoChatPage({ socket }) {
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
-        myVideo.current.srcObject = stream;
       });
   }, [socket]);
+
+  useEffect(() => {
+    if (stream) {
+      myVideo.current.srcObject = stream;
+    }
+  }, [stream]);
 
   const callUser = (id) => {
     const peer = new Peer({
@@ -39,8 +43,8 @@ export default function VideoChatPage({ socket }) {
       socket.send(
         JSON.stringify({
           type: 7,
-          sendId: chatId,
-          receiverId: id,
+          sendId: useContext.userState.userId,
+          receiverId: chatId,
           message: data,
           sendTime: Date.now(),
           sendName: userContext.userState.userName,
@@ -73,8 +77,8 @@ export default function VideoChatPage({ socket }) {
       socket.send(
         JSON.stringify({
           type: 8,
-          sendId: chatId,
-          receiverId: videoContext.videoState.callerId,
+          sendId: userContext.userState.userId,
+          receiverId: chatId,
           message: data,
           sendTime: Date.now(),
           sendName: userContext.userState.userName,
@@ -107,14 +111,12 @@ export default function VideoChatPage({ socket }) {
         </div>
       </div>
       <div className='myId'>
-        <input value={idToCall} onChange={(e) => setIdToCall(e.target.value)} />
         <div className='call-button'>
           {videoContext.videoState.callAccepted && !callEnded ? (
             <button onClick={leaveCall}>End Call</button>
           ) : (
-            <button onClick={() => callUser(idToCall)}>Call</button>
+            <button onClick={() => callUser(chatId)}>Call</button>
           )}
-          {idToCall}
         </div>
       </div>
       <div>

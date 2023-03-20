@@ -70,6 +70,7 @@ export default function FriendPage() {
     if (socket) {
       socket.onmessage = function (event) {
         var message = JSON.parse(event.data);
+        console.log(message);
         if (message.wsType === 'FriendStatus') {
           friendDispatch({ type: 'onlineStatus', message });
         } else if (message.message === 'addFriend') {
