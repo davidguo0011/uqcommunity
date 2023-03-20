@@ -1,5 +1,5 @@
 export const initWebsocket = (data) => {
-  const socket = new WebSocket('ws://47.104.72.151:8088/chat');
+  const socket = new WebSocket('wss://47.104.72.151:8089/chat');
   socket.onopen = function () {
     console.log('连接建立成功');
     socket.send(JSON.stringify(data));
