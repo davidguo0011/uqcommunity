@@ -12,8 +12,10 @@ import { UserContext } from '../../context/UserContext';
 import { useTabNotificationHook } from '../../hooks/useTabNotificationHook';
 import { useNavigate } from 'react-router-dom';
 import { VideoContext } from '../../context/VideoContext';
+import IncomingCallNotificationPortal from '../IncomingCallNotification/IncomingCallNotification';
+import VideoChatPage from '../../pages/VideoChatPage/VideoChatPage';
 
-export default function FriendPage() {
+export default function ChatLayout() {
   const [socket, setSocket] = useState();
   const userContext = useContext(UserContext);
   const videoContext = useContext(VideoContext);
@@ -22,6 +24,9 @@ export default function FriendPage() {
   const { initialise, loaded } = friendState;
   const [showNotification, clearNotification] = useTabNotificationHook();
   const navigate = useNavigate();
+  const [showIncomingCallNotification, setShowIncomingCallNotification] =
+    useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
     if (socket) {
@@ -111,6 +116,7 @@ export default function FriendPage() {
           }
         } else if (message.wsType === 'callUser') {
           videoContext.videoDispatch({ type: 'callUser', message });
+          setShowIncomingCallNotification(true);
         } else if (message.wsType === 'callAccepted') {
           videoContext.videoDispatch({ type: 'callAccepted', message });
           videoContext.videoState.peer.signal(message.data.message);
@@ -145,6 +151,20 @@ export default function FriendPage() {
 
   return (
     <div className={styles.friendPageContainer}>
+      {showIncomingCallNotification && (
+        <IncomingCallNotificationPortal
+          setShowIncomingCallNotification={setShowIncomingCallNotification}
+          setShowVideo={setShowVideo}
+          friendState={friendState}
+        />
+      )}
+      {showVideo && (
+        <VideoChatPage
+          socket={socket}
+          setShowVideo={setShowVideo}
+          friendState={friendState}
+        />
+      )}
       <SideNavigation />
       <ChatList friendState={friendState} socket={socket} />
       <div className={styles.rightSection}>
@@ -155,6 +175,8 @@ export default function FriendPage() {
             friendDispatch,
             chatDispatch,
             chatState,
+            showVideo,
+            setShowVideo,
           }}
         />
       </div>

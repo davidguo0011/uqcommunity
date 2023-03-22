@@ -10,7 +10,6 @@ export default function ChatRoom({
   messages,
   sendMessage,
   chatId,
-  socket,
 }) {
   const userContext = useContext(UserContext);
   const scrollRef = useRef([]);

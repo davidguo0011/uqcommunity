@@ -74,6 +74,7 @@ export default function useFriendReducer() {
             {
               id: action.message.data.sendId,
               name: action.message.data.sendName,
+              avatar: action.message.data.avatar,
               friendship: 'friend',
               onlineStatus: 'online',
             },
