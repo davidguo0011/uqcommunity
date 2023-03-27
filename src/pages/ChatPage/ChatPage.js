@@ -112,7 +112,11 @@ export default function ChatPage() {
             chatId={chatId}
           />
         )}
-        <RightSideMenu />
+        <RightSideMenu
+          onlineStatus='online'
+          disable={false}
+          chatFriend={chatFriend}
+        />
       </div>
     </>
   );

@@ -1,24 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './IncomingCallNotification.module.scss';
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import { CgClose } from 'react-icons/cg';
 import { VideoContext } from '../../context/VideoContext';
 import WaitingCallUI from '../WaitingCallUI/WaitingCallUI';
+import Ring from '../../assets/ringtone-126505.mp3';
+import useSound from 'use-sound';
 
 function IncomingCallNotification({
   setShowIncomingCallNotification,
   setShowVideo,
   friendState,
 }) {
-  console.log(friendState);
   const videoContext = useContext(VideoContext);
   const chatFriend = friendState.friends.filter((friend) => {
     return friend.id === parseInt(videoContext.videoState.callerId);
   })[0];
-  console.log(chatFriend.avatar);
+  const [didMount, setDidMount] = useState(true);
+  const [play, { stop }] = useSound(Ring);
+  useEffect(() => {
+    play();
+  }, [play]);
+
   return (
-    <div className={styles.notificationContainer}>
+    <div
+      className={[
+        styles.notificationContainer,
+        didMount ? styles.mount : styles.unmount,
+      ].join(' ')}
+    >
       <div className={styles.notificationSection}>
         <WaitingCallUI avatar={chatFriend.avatar} />
         <h3>{videoContext.videoState.callerName}</h3>
@@ -27,7 +38,11 @@ function IncomingCallNotification({
           <button
             className={styles.cancelBtn}
             onClick={() => {
-              setShowIncomingCallNotification(false);
+              setDidMount(false);
+              stop();
+              setTimeout(() => {
+                setShowIncomingCallNotification(false);
+              }, 200);
             }}
           >
             <CgClose />
@@ -35,8 +50,12 @@ function IncomingCallNotification({
           <button
             className={styles.answerBtn}
             onClick={() => {
-              setShowIncomingCallNotification(false);
-              setShowVideo(true);
+              setDidMount(false);
+              stop();
+              setTimeout(() => {
+                setShowIncomingCallNotification(false);
+                setShowVideo(true);
+              }, 200);
             }}
           >
             <BsFillTelephoneFill />

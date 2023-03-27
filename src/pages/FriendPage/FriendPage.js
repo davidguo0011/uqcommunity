@@ -37,7 +37,7 @@ export default function FriendPage() {
           friendState={friendState}
           friendDispatch={friendDispatch}
         />
-        <RightSideMenu />
+        <RightSideMenu disable />
       </div>
     </>
   );

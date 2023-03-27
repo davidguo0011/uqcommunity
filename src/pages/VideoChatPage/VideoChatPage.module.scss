@@ -21,7 +21,7 @@ $textwhite: rgb(255, 255, 255);
   top: 0;
   left: 350px;
   z-index: 200;
-  width: 79.5%;
+  width: calc(100% - 350px);
   height: 350px;
   display: flex;
   flex-direction: column;

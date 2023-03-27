@@ -18,12 +18,15 @@ import { BsCameraVideoOffFill } from 'react-icons/bs';
 import { RxSpeakerLoud } from 'react-icons/rx';
 import { RxSpeakerOff } from 'react-icons/rx';
 import WaitingCallUI from '../../components/WaitingCallUI/WaitingCallUI';
+import Ring from '../../assets/ringtone-126505.mp3';
+import useSound from 'use-sound';
 
 export default function VideoChatPage({ socket, setShowVideo, friendState }) {
   const userContext = useContext(UserContext);
   const videoContext = useContext(VideoContext);
   // const chatId = parseInt(useParams().chatId);
   const chatId = useRef(useParams().chatId);
+  const [play, { stop }] = useSound(Ring);
 
   const [stream, setStream] = useState();
 
@@ -44,10 +47,12 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
         track.stop();
       }
     });
+    stop();
   };
 
   const callUser = useCallback(
     (id) => {
+      play();
       const peer = new Peer({
         initiator: true,
         config: {
@@ -78,7 +83,7 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
       });
 
       peer.on('stream', (stream) => {
-        console.log('done');
+        stop();
         userVideo.current.srcObject = stream;
       });
 

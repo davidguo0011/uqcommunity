@@ -21,13 +21,17 @@ export default function FriendsStatus({
       return friend.onlineStatus === 'online' && friend.friendship === 'friend';
     });
   } else if (currentType === '全部') {
-    friendList = friendState.friends.filter((friend) => {
-      return friend.friendship === 'friend';
-    });
+    friendList = friendState.friends
+      .sort((a, b) => (a.onlineStatus === 'online' ? -1 : 1))
+      .filter((friend) => {
+        return friend.friendship === 'friend';
+      });
   } else if (currentType === '待定') {
-    friendList = friendState.friends.filter((friend) => {
-      return friend.friendship === 'wait';
-    });
+    friendList = friendState.friends
+      .sort((a, b) => (a.onlineStatus === 'online' ? -1 : 1))
+      .filter((friend) => {
+        return friend.friendship === 'wait';
+      });
   } else if (currentType === '已屏蔽') {
     friendList = friendState.friends.filter((friend) => {
       return friend.friendship === 'block';

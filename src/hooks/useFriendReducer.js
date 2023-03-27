@@ -111,6 +111,7 @@ export default function useFriendReducer() {
             type: 'initialiseFriends',
             friends: JSON.parse(JSON.stringify(res.data.friends)),
           });
+          console.log(res.data.friends);
         })
         .catch(() => {
           navigate('/login');

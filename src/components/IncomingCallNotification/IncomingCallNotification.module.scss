@@ -3,6 +3,38 @@ $red: rgb(223, 79, 74);
 $green: rgb(80, 163, 97);
 $textwhite: rgb(255, 255, 255);
 $textgray: rgb(188, 188, 189);
+@keyframes mountPulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes unMountPulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+}
+.mount {
+  animation: mountPulse 0.4s;
+}
+.unmount {
+  animation: unMountPulse 0.4s;
+}
 
 .notificationContainer {
   height: 100vh;
@@ -10,12 +42,12 @@ $textgray: rgb(188, 188, 189);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
   position: absolute;
   top: 0;
   left: 0;
   .notificationSection {
+    animation: pulse 0.3s;
     padding: 20px;
     width: 240px;
     height: 320px;
