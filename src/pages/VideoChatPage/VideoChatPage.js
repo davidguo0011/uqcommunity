@@ -24,7 +24,6 @@ import useSound from 'use-sound';
 export default function VideoChatPage({ socket, setShowVideo, friendState }) {
   const userContext = useContext(UserContext);
   const videoContext = useContext(VideoContext);
-  // const chatId = parseInt(useParams().chatId);
   const chatId = useRef(useParams().chatId);
   const [play, { stop }] = useSound(Ring);
 
@@ -38,17 +37,36 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
     return friend.id === parseInt(chatId.current);
   })[0];
 
-  const leaveCall = () => {
-    setShowVideo(false);
-    videoContext.videoDispatch({ type: 'clear' });
-    connectionRef.current.destroy();
-    stream.getTracks().forEach((track) => {
-      if (track.readyState === 'live') {
-        track.stop();
+  const leaveCall = useCallback(
+    (activelyLeaveCall) => {
+      videoContext.videoDispatch({ type: 'clear' });
+      connectionRef.current.destroy();
+      stream.getTracks().forEach((track) => {
+        if (track.readyState === 'live') {
+          track.stop();
+        }
+      });
+      if (activelyLeaveCall) {
+        const data = {
+          type: '11',
+          sendId: userContext.userState.userId,
+          receiverId: videoContext.videoState.callerId || chatId.current,
+          sendTime: Date.now(),
+        };
+        socket.send(JSON.stringify(data));
       }
-    });
-    stop();
-  };
+      stop();
+      setShowVideo(false);
+    },
+    [
+      setShowVideo,
+      socket,
+      stop,
+      stream,
+      userContext.userState.userId,
+      videoContext,
+    ]
+  );
 
   const callUser = useCallback(
     (id) => {
@@ -79,7 +97,6 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
             sendName: userContext.userState.userName,
           })
         );
-        console.log(JSON.stringify(data));
       });
 
       peer.on('stream', (stream) => {
@@ -92,7 +109,9 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
       connectionRef.current = peer;
     },
     [
+      play,
       socket,
+      stop,
       stream,
       userContext.userState.userId,
       userContext.userState.userName,
@@ -129,10 +148,8 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
             sendName: userContext.userState.userName,
           })
         );
-        console.log(JSON.stringify(data));
       });
       peer.on('stream', (stream) => {
-        console.log('done');
         userVideo.current.srcObject = stream;
       });
       peer.signal(videoContext.videoState.data);
@@ -170,6 +187,12 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
       setStream(stream);
     });
   }, []);
+
+  useEffect(() => {
+    if (videoContext.videoState.callEnded) {
+      leaveCall(false);
+    }
+  }, [leaveCall, videoContext.videoState.callEnded]);
 
   useEffect(() => {
     if (stream) {
@@ -212,7 +235,12 @@ export default function VideoChatPage({ socket, setShowVideo, friendState }) {
             ))}
         </div>
         <div className={styles.btnContainer}>
-          <button onClick={leaveCall} className={styles.closeBtn}>
+          <button
+            onClick={() => {
+              leaveCall(true);
+            }}
+            className={styles.closeBtn}
+          >
             <CgClose />
           </button>
           <button onClick={muteCam} className={styles.camBtn}>

@@ -16,7 +16,6 @@ export default function ChatPage() {
     chatDispatch,
     chatState,
     friendDispatch,
-    showVideo,
     setShowVideo,
   } = useOutletContext();
   const chatId = parseInt(useParams().chatId);
@@ -97,7 +96,6 @@ export default function ChatPage() {
     socket.send(JSON.stringify(data));
     chatDispatch({ type: 'addMessage', message: data, chatId: chatFriend.id });
   };
-  console.log(showVideo);
   return (
     <>
       <TopNav chatFriend={chatFriend} setShowVideo={setShowVideo} />

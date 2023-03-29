@@ -9,6 +9,7 @@ export const VideoProvider = (props) => {
     callerId: 0,
     callAccepted: false,
     peer: {},
+    callEnded: false,
   };
   //reducer function
   const userReducer = (state, action) => {
@@ -38,6 +39,11 @@ export const VideoProvider = (props) => {
         return {
           ...state,
           peer: action.peer,
+        };
+      case 'endCall':
+        return {
+          ...state,
+          callEnded: true,
         };
       default:
         return state;

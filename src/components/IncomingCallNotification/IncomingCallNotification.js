@@ -7,13 +7,16 @@ import { VideoContext } from '../../context/VideoContext';
 import WaitingCallUI from '../WaitingCallUI/WaitingCallUI';
 import Ring from '../../assets/ringtone-126505.mp3';
 import useSound from 'use-sound';
+import { UserContext } from '../../context/UserContext';
 
 function IncomingCallNotification({
   setShowIncomingCallNotification,
   setShowVideo,
   friendState,
+  socket,
 }) {
   const videoContext = useContext(VideoContext);
+  const userContext = useContext(UserContext);
   const chatFriend = friendState.friends.filter((friend) => {
     return friend.id === parseInt(videoContext.videoState.callerId);
   })[0];
@@ -21,7 +24,21 @@ function IncomingCallNotification({
   const [play, { stop }] = useSound(Ring);
   useEffect(() => {
     play();
-  }, [play]);
+    return () => {
+      stop();
+    };
+  }, [play, stop]);
+
+  useEffect(() => {
+    if (videoContext.videoState.callEnded) {
+      setShowIncomingCallNotification(false);
+      videoContext.videoDispatch({ type: 'clear' });
+    }
+  }, [
+    setShowIncomingCallNotification,
+    videoContext,
+    videoContext.videoState.callEnded,
+  ]);
 
   return (
     <div
@@ -38,10 +55,17 @@ function IncomingCallNotification({
           <button
             className={styles.cancelBtn}
             onClick={() => {
+              const data = {
+                type: '11',
+                sendId: userContext.userState.userId,
+                receiverId: videoContext.videoState.callerId,
+                sendTime: Date.now(),
+              };
+              socket.send(JSON.stringify(data));
               setDidMount(false);
-              stop();
               setTimeout(() => {
                 setShowIncomingCallNotification(false);
+                videoContext.videoDispatch({ type: 'clear' });
               }, 200);
             }}
           >
@@ -51,7 +75,6 @@ function IncomingCallNotification({
             className={styles.answerBtn}
             onClick={() => {
               setDidMount(false);
-              stop();
               setTimeout(() => {
                 setShowIncomingCallNotification(false);
                 setShowVideo(true);
@@ -70,6 +93,7 @@ export default function IncomingCallNotificationPortal({
   setShowIncomingCallNotification,
   setShowVideo,
   friendState,
+  socket,
 }) {
   return (
     <>
@@ -78,6 +102,7 @@ export default function IncomingCallNotificationPortal({
           setShowIncomingCallNotification={setShowIncomingCallNotification}
           setShowVideo={setShowVideo}
           friendState={friendState}
+          socket={socket}
         />,
         document.getElementById('root')
       )}

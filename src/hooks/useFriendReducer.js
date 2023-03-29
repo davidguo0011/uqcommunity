@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useContext } from 'react';
 import { getFriends } from '../api/friends';
+import { getGroups } from '../api/groups';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 export default function useFriendReducer() {
@@ -46,6 +47,9 @@ export default function useFriendReducer() {
             {
               id: action.message.sendId,
               name: action.message.sendName,
+              avatar: action.message.sendAvatar,
+              selfIntro: action.message.sendSelfIntro,
+              bannerColor: action.message.sendBannerColor,
               friendship: 'wait',
               onlineStatus: 'offline',
             },
@@ -74,7 +78,9 @@ export default function useFriendReducer() {
             {
               id: action.message.data.sendId,
               name: action.message.data.sendName,
-              avatar: action.message.data.avatar,
+              avatar: action.message.data.sendAvatar,
+              bannerColor: action.message.data.sendBannerColor,
+              selfIntro: action.message.data.sendSelfIntro,
               friendship: 'friend',
               onlineStatus: 'online',
             },
@@ -111,11 +117,13 @@ export default function useFriendReducer() {
             type: 'initialiseFriends',
             friends: JSON.parse(JSON.stringify(res.data.friends)),
           });
-          console.log(res.data.friends);
         })
         .catch(() => {
           navigate('/login');
         });
+      getGroups(data).then((res) => {
+        console.log(res);
+      });
     }
   }, [navigate, state.initialise, userId]);
 

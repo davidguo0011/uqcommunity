@@ -10,6 +10,7 @@ import { UserContext } from '../../context/UserContext';
 
 export default function FriendStatus({ friendDispatch, friend }) {
   const userContext = useContext(UserContext);
+
   const acceptFriendAction = (action) => {
     const data = {
       sendId: userContext.userState.userId,
@@ -20,7 +21,6 @@ export default function FriendStatus({ friendDispatch, friend }) {
     };
 
     acceptFriendRequest(data);
-
     if (action === 1) {
       friendDispatch({ type: 'acceptFriend', id: friend.id });
     } else {

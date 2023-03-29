@@ -2,6 +2,9 @@ import { useState, useCallback } from 'react';
 export const useTabNotificationHook = () => {
   const [tabNotification, setTabNotification] = useState(null);
   const showNotification = () => {
+    if (tabNotification) {
+      clearInterval(tabNotification);
+    }
     let notification = setInterval(() => {
       document.title =
         document.title === 'UQ community' ? 'New Message!' : 'UQ community';

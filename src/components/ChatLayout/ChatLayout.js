@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import { VideoContext } from '../../context/VideoContext';
 import IncomingCallNotificationPortal from '../IncomingCallNotification/IncomingCallNotification';
 import VideoChatPage from '../../pages/VideoChatPage/VideoChatPage';
+import useSound from 'use-sound';
+import MessageSound from '../../assets/Message-notification.mp3';
 
 export default function ChatLayout() {
   const [socket, setSocket] = useState();
@@ -27,6 +29,7 @@ export default function ChatLayout() {
   const [showIncomingCallNotification, setShowIncomingCallNotification] =
     useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [play, { stop }] = useSound(MessageSound);
 
   useEffect(() => {
     if (socket) {
@@ -105,6 +108,14 @@ export default function ChatLayout() {
           friendDispatch({ type: 'addFriendConfirm', message });
         } else if (message.wsType === 'chatMessage') {
           if (chatState.chatUserId !== message.data.sendId) {
+            const playSound = new Promise((resolve) => {
+              resolve(play());
+            });
+            playSound.then(() => {
+              setTimeout(() => {
+                stop();
+              }, 1000);
+            });
             friendDispatch({ type: 'messageNotification', message });
             showNotification();
           } else {
@@ -120,6 +131,8 @@ export default function ChatLayout() {
         } else if (message.wsType === 'callAccepted') {
           videoContext.videoDispatch({ type: 'callAccepted', message });
           videoContext.videoState.peer.signal(message.data.message);
+        } else if (message.wsType === 'hangUp') {
+          videoContext.videoDispatch({ type: 'endCall' });
         }
       };
     }
@@ -128,8 +141,10 @@ export default function ChatLayout() {
     chatState,
     friendDispatch,
     loaded,
+    play,
     showNotification,
     socket,
+    stop,
     videoContext,
   ]);
 
@@ -156,6 +171,7 @@ export default function ChatLayout() {
           setShowIncomingCallNotification={setShowIncomingCallNotification}
           setShowVideo={setShowVideo}
           friendState={friendState}
+          socket={socket}
         />
       )}
       {showVideo && (

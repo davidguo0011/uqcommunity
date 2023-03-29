@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './WaitingCallUI.module.scss';
 
 export default function WaitingCallUI({ avatar }) {
-  console.log(avatar);
   return (
     <div className={styles.waitingUI}>
       <div className={styles.backgroundFlash}></div>
